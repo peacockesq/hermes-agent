@@ -138,7 +138,7 @@ def _coerce_command_list(raw: Any) -> FrozenSet[str]:
 
 
 def _scope_for_chat_type(chat_type: Optional[str]) -> str:
-    if chat_type and chat_type.lower() in _DM_CHAT_TYPES:
+    if chat_type is not None and chat_type.lower() in _DM_CHAT_TYPES:
         return "dm"
     return "group"
 

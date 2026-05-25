@@ -518,6 +518,7 @@ from gateway.session import (
     build_session_key,
     is_shared_multi_user_session,
 )
+from gateway.slash_access import policy_for_source
 from gateway.delivery import DeliveryRouter
 from gateway.platforms.base import (
     BasePlatformAdapter,
@@ -5272,6 +5273,12 @@ class GatewayRunner:
                         command = target_command.split()[0] if target_command else target_command
                         _cmd_def = _resolve_cmd(command) if command else None
                         canonical = _cmd_def.name if _cmd_def else command
+
+        # Slash command access control — wired per Otto PR #4 unblock instruction
+        if command:
+            _slash_policy = policy_for_source(self.config, source)
+            if not _slash_policy.can_run(source.user_id, canonical or command):
+                return f"⛔ Command `/{command}` is not available for your user."
 
         # Fire the ``command:<canonical>`` hook for any recognized slash
         # command — built-in OR plugin-registered. Handlers can return a
