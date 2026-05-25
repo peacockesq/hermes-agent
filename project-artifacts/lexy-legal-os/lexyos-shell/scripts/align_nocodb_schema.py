@@ -108,6 +108,6 @@ def main():
       offset += limit
   meta=table_meta(); existing_after=col_names(meta)
   report['missing_after']=[{'name':n,'uidt':u,'group':g} for n,u,g in LEXY_FIELDS if n not in existing_after]
-  out=Path(args.out); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False))
+  out=Path(args.out); out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(report,indent=2,ensure_ascii=False), encoding='utf-8')
   print(json.dumps({k:report[k] for k in ['existing_count','desired_count','added','add_errors','backfilled','backfill_errors','missing_after']}, indent=2, ensure_ascii=False))
 if __name__=='__main__': main()
