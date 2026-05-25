@@ -13,9 +13,40 @@ No Mike/PIP code is copied. This is a separate shell designed around Peacock's a
 ## Run
 
 ```bash
+npm install # no runtime dependencies today; keeps npm scripts available
+npm run reset:data
 npm test
 npm start
-# open http://localhost:5174/public/
+# open http://localhost:5174/
+```
+
+`npm start` runs the local Node HTTP product backend, not a static-only file server. It serves the UI and JSON API from the same origin, with durable state in `data/lexyos.json` by default. Override the state file for isolated test/dev runs:
+
+```bash
+LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm run reset:data
+LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm start
+```
+
+## Local API surface
+
+All endpoints are local-only unless you deliberately bind the server differently. No external services are contacted.
+
+- `GET /api/health`
+- `GET /api/matters`, `POST /api/matters`
+- `GET /api/matters/:matterId/files`, `POST /api/matters/:matterId/files`
+- `GET /api/document-requests`, `POST /api/document-requests`, `POST /api/document-requests/:requestId/artifacts`
+- `GET /api/gates`, `POST /api/gates/:gateId/approve`, `POST /api/gates/:gateId/reject`
+- `GET /api/tasks`, `POST /api/tasks`
+- `GET /api/audit-events`
+- `GET /api/filing-packets`, `POST /api/filing-packets`, `GET /api/filing-packets/:packetId/status`, `POST /api/filing-packets/:packetId/submit`
+- `POST /api/corpus/search` (returns cited support or an explicit unsupported/refusal answer)
+- `POST /api/service-packets`, `POST /api/service-packets/:packetId/send`, `POST /api/service-packets/:packetId/proof`
+
+Example smoke call after `npm start`:
+
+```bash
+curl -s http://127.0.0.1:5174/api/health
+curl -s http://127.0.0.1:5174/api/matters
 ```
 
 ## Current modules
@@ -40,9 +71,12 @@ npm start
 - `src/cockpit.mjs` — operational cockpit view model with task/gate/filing/service/deadline/audit cards and matter drilldowns.
 - `src/risk.mjs` — threat model and clean-room/license-boundary memo contracts.
 - `src/api.mjs` — service stub for `/matters`, `/tasks`, `/gates`, and `/audit-events`.
+- `src/server.mjs` — runnable local Node HTTP product backend for the UI plus persistent JSON API workflows.
+- `data/seed.json` — resettable local seed data for matters, files, tasks, corpus sources, and empty workflow collections.
+- `scripts/reset-data.mjs` — copies seed data into the active JSON data file (`data/lexyos.json` by default).
 - `src/schema.mjs` — Lexy canonical matter schema split into `lexy_core`, `qdro_pack`, and `peacock_ops` classifications.
 - `scripts/align_nocodb_schema.py` — idempotent NoCoDB schema alignment/backfill tool for making firm tables conform to Lexy titles.
-- `public/` — matter cockpit UI with SSO/session, filing, corpus, service, task/gate, Drive, document, and Eva panels.
+- `public/` — matter cockpit UI with SSO/session, filing, corpus, service, task/gate, Drive, document, and Eva panels. It now hydrates matters, files, and corpus answers from the local API with module-demo fallback only for development resilience.
 - `docs/kanban-execution-plan.md` — full PRD feature coverage and review-gate plan mirrored into Hermes Kanban.
 - `config/integrations.json` — first-pass Peacock integration assumptions.
 

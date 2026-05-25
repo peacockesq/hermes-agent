@@ -61,6 +61,35 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Board `lexyos` contains implementation cards for every PRD feature plus dependency-gated integration, spec, security, Otto, and GitHub PR cards.
 - The GitHub publication card is intentionally gated behind Otto final review; do not publish while the feature contracts or review cards are incomplete.
 
+## Runtime product backend decisions and receipts
+- `npm start` now runs `node src/server.mjs`, a local Node HTTP server that serves the cockpit UI and same-origin JSON APIs. It binds to `127.0.0.1:5174` by default and does not call external services.
+- Persistence is JSON-file backed through the existing store facade. Default mutable state is `data/lexyos.json`; `npm run reset:data` rebuilds it from `data/seed.json`; tests override `LEXYOS_DATA_PATH`/constructor data paths with temp files.
+- API workflows now cover matters, matter files, document generation requests/artifacts, gates approve/reject, tasks, hash-chained audit events, filing packet/status/submission, corpus search with explicit unsupported refusal, and service packet/send/proof lifecycle.
+- Browser cockpit is now API-only: it no longer imports `src/*`, embeds demo matters/files, or shows fake success when the backend is unavailable. API errors render in `#error-panel`.
+- Gate decisions update matching task state as persistent API state: approved gates mark matching gate-bound tasks `approved`, rejected gates mark them `blocked`, and audit metadata records affected task IDs.
+- UI workflows wired to live endpoints: matter selection from `/api/matters`, drilldown files from `/api/matters/:id/files`, document generation + artifact persistence, gate approve/reject, filing prepare/submit, corpus search, service prepare/send/proof, task panels, and visible audit trail.
+- Receipt: strict RED test `node --test tests/product-ui-workflows.test.mjs` failed before UI implementation because the browser app imported server modules/static demo data and lacked workflow controls; it passes after implementation.
+- Receipt: `npm test` passes 55/55 after adding `tests/product-ui-workflows.test.mjs` and extending `tests/product-backend.test.mjs` for gate-to-task persistence.
+- Runtime smoke receipt on temp `LEXYOS_DATA_PATH`, port 5198: health=ok, `/`=200, `/public/app.mjs`=200, matter_count=2, generated artifact rendered, task_status=approved after gate approval, filing=submitted, corpus=True, service=sent, audit_events=11.
+
+## Runtime proof hardening — 2026-05-25
+- Product decision: workflow buttons now promote the gate they just created into `state.selectedGate` before refresh. This prevents stale/pending gates from hijacking the next Approve action and gives the local cockpit a deterministic document -> approve, filing -> approve -> submit, and service -> approve -> send flow.
+- RED receipt: `node --test tests/product-ui-workflows.test.mjs` failed on `workflow actions promote their newly created approval gate to the selected gate` before the UI fix.
+- GREEN receipt: `node --test tests/product-ui-workflows.test.mjs` passes 4/4 after the fix.
+- Full suite receipt: `npm test` passes 56/56.
+- Local server receipt: `PORT=5199 LEXYOS_DATA_PATH=$(mktemp -d)/lexyos.json npm start` served `http://127.0.0.1:5199` with seed-backed persistent JSON at `/var/folders/fb/n0drdntn5d15lmxd1h1zn7w00000gn/T/tmp.5BA0jEBULI/lexyos.json` during curl proof.
+- Curl proof receipts: `GET /api/health` returned `status=ok`; `GET /` returned HTTP 200 with 2876 bytes; `GET /public/app.mjs` returned HTTP 200 with 17977 bytes; `GET /api/matters` returned two matters (`Q-2026-001`, `INTAKE-2026-002`).
+- API workflow receipts: document request `docgen_Q-2026-001_runtime-qdro` created pending gate `gate_docgen_Q-2026-001_runtime-qdro`; artifact `artifact_docgen_Q-2026-001_runtime-qdro` rendered; approving the gate persisted task `runtime-review-task` from `ready` to `approved`; filing packet `runtime-filing` validated and submitted with receipt `manual-runtime-filing`; corpus search returned `supported=True` with one citation; service packet `runtime-service` was prepared, approved, and sent with tracking `TRACK-RUNTIME-001`; audit trail reached 11 events.
+- Playwright UI smoke receipt: `/opt/homebrew/opt/python@3.14/bin/python3.14 scripts/ui-smoke-proof.py` drove the browser through matter load, document artifact generation, gate approval, filing prepare/approve/submit, service prepare/approve/send/proof, corpus search, and Eva tracked-change proposal with an empty `#error-panel`. Screenshot captured at `proof/lexyos-ui-smoke.png`.
+- Remaining product gaps: live Google Drive/no-code DB adapters are still behind local adapter seams; no external services were called per task constraint. Production publication remains gated behind explicit review/publish tasks.
+
+## HTTP auth boundary hardening — 2026-05-25
+- Product decision: local product API endpoints no longer use a hardcoded owner/global system session. `createLexyProductApp` and `createLexyProductServer` accept an injectable session resolver; the default resolver reads `Authorization: Bearer <token>` or `x-lexyos-session-id` and resolves the token against the JSON store-backed `sessions` collection plus `users` membership data.
+- HTTP API behavior: protected endpoints return 401 for missing/invalid sessions; list endpoints filter matters/tasks/gates/audit/filing/document-request rows to the resolved session's accessible matters; action endpoints re-check role permission and same-matter access before writes, gate approvals, filing submission, service sends, and proof ingestion.
+- Local dev receipt: `data/seed.json` includes `local-dev-owner`, and the browser cockpit sends `x-lexyos-session-id` from `localStorage.lexyos-session-id` with a `local-dev-owner` default for local-only operation.
+- RED receipt: `npm test -- tests/security-hardening.test.mjs tests/security-boundaries.test.mjs` failed before implementation on missing/invalid sessions returning 200, agent gate approval returning 200, and cross-tenant HTTP lists exposing both tenants.
+- GREEN receipt: after the fix, targeted security/product run passed 59/59 with HTTP auth/session-boundary tests included.
+
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.

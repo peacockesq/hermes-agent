@@ -13,30 +13,47 @@
         <label class="search-label" for="matter-search">Matter</label>
         <input id="matter-search" placeholder="Search client, plan, stage…" autocomplete="off" />
         <div id="matter-list" class="matter-list"></div>
+        <h2>Audit Trail</h2>
+        <pre id="audit-trail"></pre>
       </aside>
 
       <aside class="files-pane">
-        <h2>Cloud Files</h2>
+        <h2>Drive-scoped Files</h2>
         <div id="folder-status" class="folder-status"></div>
         <div id="file-list" class="file-list"></div>
         <h2>Baseline Data</h2>
         <div id="baseline-panel" class="baseline-panel"></div>
+        <h2>Errors</h2>
+        <pre id="error-panel" class="error-panel"></pre>
       </aside>
 
       <section class="workspace-pane">
         <div class="workspace-header">
           <h1>Document Workspace</h1>
-          <div class="pill">Drive folder per matter · tracked-change edits</div>
+          <div class="pill">API-backed · persistent local JSON · attorney gates</div>
+        </div>
+        <div class="action-grid">
+          <button id="generate-doc">Generate persistent QDRO artifact</button>
+          <button id="approve-gate">Approve selected gate</button>
+          <button id="reject-gate">Reject selected gate</button>
+          <button id="create-filing">Prepare filing packet</button>
+          <button id="submit-filing">Submit approved filing</button>
+          <button id="prepare-service">Prepare service packet</button>
+          <button id="send-service">Send approved service</button>
+          <button id="upload-proof">Upload proof of service</button>
+          <button id="search-corpus">Search Lexy Corpus</button>
         </div>
         <div id="document-frame" class="document-frame"></div>
       </section>
 
       <aside class="eva-pane">
-        <h2>Unified Login / B2B</h2>
+        <h2>Session / API</h2>
         <pre id="session-panel" class="proposal"></pre>
-        <h2>Tasks / Gates / Filing</h2>
+        <h2>Tasks</h2>
         <pre id="ops-panel"></pre>
-        <h2>Corpus / Service</h2>
+        <h2>Gates</h2>
+        <div id="gate-list" class="matter-list"></div>
+        <h2>Filing / Corpus / Service</h2>
         <pre id="research-panel"></pre>
         <h2>Eva / Research</h2>
         <textarea id="eva-instruction" placeholder="Ask Eva to review, draft, or propose a tracked edit…">Add survivor benefit language if missing.</textarea>
