@@ -5,6 +5,9 @@
   "users": [
     { "id": "local-owner", "email": "local-owner@lexyos.test", "displayName": "Local Owner", "memberships": [{ "tenantId": "peacock", "roles": ["owner"], "globalMatterAccess": true }] }
   ],
+  "sessions": [
+    { "id": "local-dev-owner", "userId": "local-owner", "tenantId": "peacock", "provider": "local-dev" }
+  ],
   "matters": [
     {
       "id": "Q-2026-001",
