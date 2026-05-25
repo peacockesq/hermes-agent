@@ -135,8 +135,8 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
     if (method === 'POST' && segments.length === 1 && segments[0] === 'tasks') {
       requirePermission(session, LEXY_PERMISSIONS.TASK_RUN);
       if (body.matterId) await requireMatter(body.matterId, session);
-      const task = createTask({ id: body.id ?? `task_${randomUUID()}`, matterId: body.matterId, title: body.title, kind: body.kind, assignedTo: body.assignedTo, requiresGate: body.requiresGate, prerequisites: body.prerequisites ?? [], payload: body.payload ?? {} });
-      const gateDecision = body.requiresGate ? await findExistingGateDecision({ matterId: body.matterId, requiresGate: body.requiresGate }) : null;
+      const task = createTask({ id: body.id ?? `task_${randomUUID()}`, matterId: body.matterId, title: body.title, kind: body.kind, assignedTo: body.assignedTo, requiresGate: body.requiresGate, gateId: body.gateId ?? null, prerequisites: body.prerequisites ?? [], payload: body.payload ?? {} });
+      const gateDecision = body.requiresGate ? await findExistingGateDecision({ matterId: body.matterId, requiresGate: body.requiresGate, gateId: body.gateId ?? null }) : null;
       const persistedTask = {
         ...task,
         ...body,
@@ -259,15 +259,20 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
     return row;
   }
 
-  async function findExistingGateDecision({ matterId, requiresGate }) {
-    return (await store.all('gates')).find((gate) => gate.matterId === matterId && [gate.type, gate.action].includes(requiresGate) && ['approved', 'rejected'].includes(gate.status)) ?? null;
+  async function findExistingGateDecision({ matterId, requiresGate, gateId = null }) {
+    return (await store.all('gates')).find((gate) => gate.matterId === matterId && gateMatchesTaskGate(gate, { requiresGate, gateId }) && ['approved', 'rejected'].includes(gate.status)) ?? null;
+  }
+
+  function gateMatchesTaskGate(gate, task) {
+    if (task.gateId) return gate.id === task.gateId;
+    return [gate.type, gate.action].includes(task.requiresGate);
   }
 
   async function applyGateDecisionToTasks(gate, reason = '') {
     const tasks = await store.all('tasks');
     const nextStatus = gate.status === 'approved' ? 'approved' : gate.status === 'rejected' ? 'blocked' : null;
     if (!nextStatus) return [];
-    const affected = tasks.filter((task) => task.matterId === gate.matterId && [gate.type, gate.action].includes(task.requiresGate));
+    const affected = tasks.filter((task) => task.matterId === gate.matterId && gateMatchesTaskGate(gate, task));
     for (const task of affected) {
       await store.upsert('tasks', {
         ...task,
