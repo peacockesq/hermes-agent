@@ -1,6 +1,6 @@
-export function createTask({ id, matterId, title, kind = 'admin', assignedTo = 'agent', requiresGate = null, prerequisites = [], payload = {} }) {
+export function createTask({ id, matterId, title, kind = 'admin', assignedTo = 'agent', requiresGate = null, gateId = null, prerequisites = [], payload = {} }) {
   if (!id || !title) throw new Error('task id and title are required');
-  return { id, matterId, title, kind, assignedTo, requiresGate, prerequisites, payload, status: prerequisites.length ? 'todo' : 'ready', auditEvents: [] };
+  return { id, matterId, title, kind, assignedTo, requiresGate, gateId, prerequisites, payload, status: prerequisites.length ? 'todo' : 'ready', auditEvents: [] };
 }
 
 export function promoteReady(tasks, completedIds = new Set()) {
@@ -16,7 +16,8 @@ export function completeTask(task, { actor, result = {}, approvedGate = null } =
   if (task.requiresGate) {
     if (approvedGate?.status !== 'approved') throw new Error(`task requires approved gate: ${task.requiresGate}`);
     if (approvedGate.matterId !== task.matterId) throw new Error('task approved gate matter mismatch');
-    if (approvedGate.type !== task.requiresGate && approvedGate.action !== task.requiresGate) throw new Error('task approved gate type/action mismatch');
+    if (task.gateId && approvedGate.id !== task.gateId) throw new Error('task approved gate id mismatch');
+    if (!task.gateId && approvedGate.type !== task.requiresGate && approvedGate.action !== task.requiresGate) throw new Error('task approved gate type/action mismatch');
   }
   return { ...task, status: 'done', completedBy: actor, completedAt: new Date().toISOString(), result };
 }

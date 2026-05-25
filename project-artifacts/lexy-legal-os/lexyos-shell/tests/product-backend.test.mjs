@@ -79,6 +79,38 @@ test('HTTP product backend persists matter, file, task, gate, audit, and generat
   assert.ok(raw.auditEvents.length >= 5);
 });
 
+test('task gateId disambiguates same-type gates on one matter', async (t) => {
+  const { api } = await withServer(t);
+
+  const firstRequest = await api('/api/document-requests', { method: 'POST', body: { matterId: 'Q-1', template: { id: 'first-review', name: 'First Review', practiceArea: 'family_qdro', requiredFacts: ['plan_name', 'case_number'] } } });
+  const secondRequest = await api('/api/document-requests', { method: 'POST', body: { matterId: 'Q-1', template: { id: 'second-review', name: 'Second Review', practiceArea: 'family_qdro', requiredFacts: ['plan_name', 'case_number'] } } });
+  assert.equal(firstRequest.status, 201);
+  assert.equal(secondRequest.status, 201);
+  assert.equal(firstRequest.body.gate.type, secondRequest.body.gate.type);
+  assert.notEqual(firstRequest.body.gate.id, secondRequest.body.gate.id);
+
+  await api(`/api/gates/${firstRequest.body.gate.id}/reject`, { method: 'POST', body: { reason: 'wrong draft' } });
+  await api(`/api/gates/${secondRequest.body.gate.id}/approve`, { method: 'POST', body: { reason: 'right draft' } });
+
+  const task = await api('/api/tasks', { method: 'POST', body: { id: 'task-second-review', matterId: 'Q-1', title: 'Review the second generated draft', requiresGate: secondRequest.body.gate.type, gateId: secondRequest.body.gate.id } });
+  assert.equal(task.status, 201);
+  assert.equal(task.body.status, 'approved');
+  assert.equal(task.body.gateDecision.gateId, secondRequest.body.gate.id);
+
+  const pendingRequest = await api('/api/document-requests', { method: 'POST', body: { matterId: 'Q-1', template: { id: 'pending-review', name: 'Pending Review', practiceArea: 'family_qdro', requiredFacts: ['plan_name', 'case_number'] } } });
+  const targetRequest = await api('/api/document-requests', { method: 'POST', body: { matterId: 'Q-1', template: { id: 'target-review', name: 'Target Review', practiceArea: 'family_qdro', requiredFacts: ['plan_name', 'case_number'] } } });
+  assert.equal(pendingRequest.body.gate.type, targetRequest.body.gate.type);
+
+  await api('/api/tasks', { method: 'POST', body: { id: 'task-pending-review', matterId: 'Q-1', title: 'Review pending draft', requiresGate: pendingRequest.body.gate.type, gateId: pendingRequest.body.gate.id } });
+  await api('/api/tasks', { method: 'POST', body: { id: 'task-target-review', matterId: 'Q-1', title: 'Review target draft', requiresGate: targetRequest.body.gate.type, gateId: targetRequest.body.gate.id } });
+
+  await api(`/api/gates/${targetRequest.body.gate.id}/approve`, { method: 'POST', body: { reason: 'target approved' } });
+  const tasks = await api('/api/tasks');
+  assert.equal(tasks.body.find((item) => item.id === 'task-pending-review').status, 'ready');
+  assert.equal(tasks.body.find((item) => item.id === 'task-target-review').status, 'approved');
+  assert.equal(tasks.body.find((item) => item.id === 'task-target-review').gateDecision.gateId, targetRequest.body.gate.id);
+});
+
 test('backend exposes filing, corpus refusal, and service/proof lifecycles over API', async (t) => {
   const { api } = await withServer(t);
 
