@@ -24,6 +24,7 @@ No Mike/PIP code is copied. This is a separate shell designed around Peacock's a
 npm ci
 npm run reset:data
 npm test
+npm run test:e2e:local
 npm run smoke:http
 npm start
 # open http://localhost:5174/
@@ -53,8 +54,34 @@ The Compose file defaults to the local storage adapter. Hosted deployments can s
 
 Workflows are included under `.github/workflows/`:
 
-- `ci.yml` runs Node tests, the HTTP smoke test, Docker build/container smoke, and a Playwright cockpit smoke when browser dependencies install successfully.
+- `ci.yml` runs Node tests, the HTTP smoke test, Docker build/container smoke, and the Playwright matter cockpit E2E with proof artifact upload.
 - `deploy-hetzner.yml` is a manual `workflow_dispatch` deploy to lexy-hetzner-01 (`37.27.49.209`) using the existing VPS + Docker Compose path. It requires `HETZNER_SSH_KEY` and optionally `HETZNER_SSH_USER` as GitHub environment/repository configuration; it does not store secrets in the repo.
+
+## Playwright E2E proof
+
+Matter cockpit E2E (`tests/e2e/matter-cockpit.spec.mjs`) covers: app load, matter selection, Drive/local file listing, generated document artifact, approve/reject gate flow, filing packet submit lifecycle, service send/proof lifecycle, supported/refused Lexy Corpus answers, and audit trail assertions. The test intentionally uses semantic locators and JSON-state polling; no `waitForTimeout` hacks.
+
+Latest verification receipt (2026-05-25): local, staging, and live all passed after deploy to lexy-hetzner-01.
+
+```bash
+npm run test:e2e:local    # 1/1 passed; proof/matter-cockpit-local.png
+npm run test:e2e:staging  # 1/1 passed against http://37.27.49.209:5174; proof/matter-cockpit-staging.png
+npm run test:e2e:live     # 1/1 passed against http://37.27.49.209:5175; proof/matter-cockpit-live.png
+```
+
+## Hetzner staging/live runtime
+
+Current lexy-hetzner-01 deployment receipt (2026-05-25):
+
+- Host: `lexy-hetzner-01` / `37.27.49.209`.
+- Deployed source: `peacockesq/lexyos` `main` at `1bed282ba77ecc61559c07775319f1d5af58e35d`.
+- Staging: `/opt/lexyos-staging`, Compose project `lexyos-staging`, data volume `lexyos-staging_lexyos-data`, UI `http://37.27.49.209:5174/`, health `http://37.27.49.209:5174/api/health`, API `http://37.27.49.209:5174/api/matters`.
+- Live: `/opt/lexyos-live`, Compose project `lexyos-live`, data volume `lexyos-live_lexyos-data`, UI `http://37.27.49.209:5175/`, health `http://37.27.49.209:5175/api/health`, API `http://37.27.49.209:5175/api/matters`.
+- Health proof: both deployments returned `{ "status": "ok", "dataPath": "/app/data/lexyos.json", "product": "LexyOS local backend" }`; UI title is `LexyOS Matter Cockpit`; authenticated `/api/matters` returned HTTP 200.
+- Persistence proof: proof matters `PROOF-staging-20260525T192344Z` and `PROOF-live-20260525T192344Z` were created through the API, each remained visible after `docker compose -p <project> restart lexyos`.
+- Rollback pattern: `ssh root@37.27.49.209 'cd /opt/lexyos-staging && git reset --hard <previous_sha> && docker compose -p lexyos-staging up -d --build --force-recreate lexyos'` and the same command under `/opt/lexyos-live` with `-p lexyos-live`.
+
+DNS/proxy gap: no LexyOS-specific Caddy/DNS hostname was present during this deploy pass, so the verified routes are direct HTTP port routes. Add DNS/Caddy hostnames later without changing the app/container contract.
 
 ## Storage providers
 
@@ -90,7 +117,7 @@ All endpoints are local-only unless you deliberately bind the server differently
 
 - `GET /api/health`
 - `GET /api/matters`, `POST /api/matters`
-- `GET /api/matters/:matterId/files`, `POST /api/matters/:matterId/files`
+- `GET /api/matters/:matterId/files`, `POST /api/matters/:matterId/files`, `GET /api/matters/:matterId/files/download?fileId=...`
 - `GET /api/document-requests`, `POST /api/document-requests`, `POST /api/document-requests/:requestId/artifacts`
 - `GET /api/gates`, `POST /api/gates/:gateId/approve`, `POST /api/gates/:gateId/reject`
 - `GET /api/tasks`, `POST /api/tasks`
@@ -133,7 +160,7 @@ curl -s http://127.0.0.1:5174/api/matters
 - `scripts/reset-data.mjs` — copies seed data into the active JSON data file (`data/lexyos.json` by default).
 - `src/schema.mjs` — Lexy canonical matter schema split into `lexy_core`, `qdro_pack`, and `peacock_ops` classifications.
 - `scripts/align_nocodb_schema.py` — idempotent NoCoDB schema alignment/backfill tool for making firm tables conform to Lexy titles.
-- `public/` — matter cockpit UI with SSO/session, filing, corpus, service, task/gate, Drive, document, and Eva panels. It now hydrates matters, files, and corpus answers from the local API with module-demo fallback only for development resilience.
+- `public/` — Seven-design matter cockpit UI with SSO/session, filing, corpus, service, task/gate, Drive, document, and Eva panels. It hydrates matters, files, workflow receipts, and corpus answers from the local API and surfaces API errors instead of using demo/static fallback data.
 - `docs/kanban-execution-plan.md` — full PRD feature coverage and review-gate plan mirrored into Hermes Kanban.
 - `config/integrations.json` — first-pass Peacock integration assumptions.
 

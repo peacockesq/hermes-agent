@@ -93,8 +93,40 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Runtime proof receipts: `GET /api/health` returned `status=ok`; `GET /` and `/public/app.mjs` returned HTTP 200; unauthenticated `GET /api/matters` returned HTTP 401; authenticated `GET /api/matters` returned two matters (`Q-2026-001`, `INTAKE-2026-002`).
 - API workflow receipts with authenticated local session: document request `docgen_Q-2026-001_final-qdro-1779727158` created gate `gate_docgen_Q-2026-001_final-qdro-1779727158`; artifact `artifact_docgen_Q-2026-001_final-qdro-1779727158` rendered; explicit-gate task `final-gate-task-1779727158` moved `ready` -> `approved`; filing `final-filing-1779727158` submitted with receipt `manual-final-filing-1779727158`; service `final-service-1779727199` sent with tracking `TRACK-FINAL-001`; corpus search returned `supported=True` with one citation; audit trail reached 13 events.
 
+## Hetzner staging/live deploy receipt — 2026-05-25
+- Scope executed on existing Hetzner host `lexy-hetzner-01` (`37.27.49.209`), not Hostinger. No client contacts, no law-firm legal file mutation, no Mike/PIP/Lawvable code copied, and no live Drive IDs/secrets committed.
+- Access unblock: local SSH to `root@37.27.49.209` succeeded after the prior blocked run; GitHub Actions workflow dispatch still needs `HETZNER_SSH_KEY` if future deploys should run through Actions instead of direct SSH.
+- Source deployed to both app directories from `https://github.com/peacockesq/lexyos.git` on `main` at `1bed282ba77ecc61559c07775319f1d5af58e35d`; both worktrees reported `## main...origin/main` with no dirty files.
+- Staging runtime: `/opt/lexyos-staging`, Compose project `lexyos-staging`, published `http://37.27.49.209:5174/`, health `http://37.27.49.209:5174/api/health`, API `http://37.27.49.209:5174/api/matters`, data mount `lexyos-staging_lexyos-data:/app/data`, image ID `sha256:7bb4aa9409977aecd23f676daad9947eb08a03dfd811499395cde60be53fe3e4`.
+- Live runtime: `/opt/lexyos-live`, Compose project `lexyos-live`, published `http://37.27.49.209:5175/`, health `http://37.27.49.209:5175/api/health`, API `http://37.27.49.209:5175/api/matters`, data mount `lexyos-live_lexyos-data:/app/data`, image ID `sha256:b12cd7b92f0542076e0745d997aaff9fc5b75f7b13a1f984381ef56af33f5f9c` after restart proof.
+- Health/UI/API proof: both environments returned `status=ok`, `dataPath=/app/data/lexyos.json`, UI title `LexyOS Matter Cockpit`, and authenticated `/api/matters` HTTP 200.
+- Persistence proof: created API sentinel matters `PROOF-staging-20260525T192344Z` and `PROOF-live-20260525T192344Z`; both were visible before and after `docker compose -p lexyos-staging restart lexyos` / `docker compose -p lexyos-live restart lexyos`.
+- Container proof after restart: `lexyos-staging-lexyos-1` published `0.0.0.0:5174->5174/tcp`; `lexyos-live-lexyos-1` published `0.0.0.0:5175->5174/tcp`; restart policy remains `unless-stopped`.
+- Rollback commands: staging `ssh root@37.27.49.209 'cd /opt/lexyos-staging && git reset --hard <previous_sha> && docker compose -p lexyos-staging up -d --build --force-recreate lexyos'`; live `ssh root@37.27.49.209 'cd /opt/lexyos-live && git reset --hard <previous_sha> && docker compose -p lexyos-live up -d --build --force-recreate lexyos'`.
+- DNS/proxy follow-up: no LexyOS-specific Caddy/DNS hostname was present during this pass; verified runtime is direct HTTP port routing. Existing LexySign/LexyFiling/Apiary containers were left running and were not recreated.
+
+## Seven UI shell and full live-workflow UI — 2026-05-25
+- Product decision: the browser cockpit uses a Mike-style matter command layout with Lexy/Seven design language: left matter nav, baseline/files panel, central document workspace, agent/API rail, cockpit controls, Skittles color tokens, glass surfaces, and iPad-responsive breakpoints.
+- Runtime decision: UI remains API-only. The shell renders API endpoint receipts, matter health metrics, selected-matter files, gates, tasks, audit, filing/corpus/service output, and Eva tracked-change context from same-origin endpoints; no static demo fallback was added.
+- Full workflow controls now include matter creation, baseline JSON edit/save, local/Drive adapter upload, selected-file download, document artifact generation, corpus query, filing lifecycle, service lifecycle, audit trail, and cockpit task/gate controls.
+- RED/GREEN receipts: `tests/product-ui-workflows.test.mjs` now asserts the required endpoint/control/function coverage; `tests/product-backend.test.mjs` covers selected-matter file download; `tests/e2e/matter-cockpit.spec.mjs` drives create/edit/upload/download before the document/filing/service lifecycle.
+- Local receipts: `npm test` passes 67/67 and `npm run test:e2e:local` passes 1/1 with `proof/matter-cockpit-local.png`.
+
+## LexyOS Design System — Seven design lane 2026-05-25
+- Product decision: formalize LexyOS visual identity as warm, vibrant, and deliberately distinct from Mike's cool azure monoculture. Five-color "Skittles" palette (`--skittle-red`, `--skittle-yellow`, `--skittle-green`, `--skittle-blue`, `--skittle-purple`) plus semantic button usage for approve/reject/filing/action states.
+- Surface hierarchy: `--bg`/`#070910` root, radial glow background, glass shell cards, panel-2 internals, active endpoint chips, and a light document frame for legal text readability.
+- Design artifacts: `design-lane/LEXYOS-DESIGN-SYSTEM-MEMO.md` and `design-lane/lexyos-design-preview.html`.
+
 ## Remaining product gaps
 - Live Google Drive/no-code DB credentials are deployment-time env values, not OSS defaults. The storage provider boundary is implemented and tested; a hosted deployment still needs `LEXYOS_DRIVE_ROOT_FOLDER_ID` injected on Hetzner and a GOG-compatible Drive command surface available at runtime.
+
+## Playwright matter cockpit E2E verification — 2026-05-25
+- Scope verified: app load, selected matter, Drive/local file listing, persistent QDRO artifact generation, approve/reject gate flow, filing prepare/approve/submit, Lexy Corpus supported answer and unsupported refusal, service prepare/approve/send/proof lifecycle, and audit trail events.
+- Regression fixed during verification: filing/service prepare actions now use fresh packet IDs (`filing_<matterId>_<Date.now()>` and `service_<matterId>_<Date.now()>`) so a rejected gate cannot poison a retry. PR #8 merged after CI passed.
+- Test stabilization: the Playwright E2E now waits for pending gate JSON and selects the newly-created gate card by accessible button text before approval; no `waitForTimeout` hacks. PR #10 merged after CI passed.
+- Local receipts from `/tmp/lexyos-e2e-verify`: `npm test` passed 65/65; `npm run smoke:http` passed; `npm run test:e2e:local` passed 1/1 and wrote `proof/matter-cockpit-local.png` plus `proof/playwright-results.json`.
+- Hetzner deploy receipt: both `/opt/lexyos-staging` and `/opt/lexyos-live` fast-forwarded to `8260d69905da7c7e1ae92d3f325d65861e9d9698`; Docker Compose rebuilt/recreated `lexyos-staging-lexyos-1` and `lexyos-live-lexyos-1`; both `/api/health` routes returned `status=ok` with `/app/data/lexyos.json`.
+- Remote Playwright receipts: `npm run test:e2e:staging` passed 1/1 against `http://37.27.49.209:5174` and wrote `proof/matter-cockpit-staging.png`; `npm run test:e2e:live` passed 1/1 against `http://37.27.49.209:5175` and wrote `proof/matter-cockpit-live.png`.
 
 ## Google Drive universal storage adapter — 2026-05-25
 - Product decision: Google Drive is now treated as a universal storage adapter, not a local-build blocker. `createMatterStorageAdapter` can select `mock`, `local`, or `google_drive` providers; `createLexyProductServer` accepts an injectable `storageAdapter` and defaults to local JSON-backed files for runnable OSS/product dev.
@@ -111,7 +143,24 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Receipts added to docs: README now documents OSS/local vs hosted product mode, Docker Compose, storage adapter env vars, GitHub Actions, and Hetzner deployment prerequisites. `scripts/http-smoke.mjs` verifies health, auth boundary, seeded matters, and selected-matter file listing against a temp JSON data path.
 - Safety: no client contacts, no law-firm legal file mutation, no live Drive folder IDs/tokens committed.
 
+## Playwright matter cockpit E2E — 2026-05-25
+- Product decision: E2E proof is now first-class Node Playwright, not only API smoke or a Python screenshot harness. `playwright.config.mjs` starts local LexyOS when `LEXYOS_BASE_URL` is absent and targets supplied staging/live URLs when it is present.
+- Coverage: `tests/e2e/matter-cockpit.spec.mjs` creates an isolated proof matter through the API, drives the cockpit with semantic locators, selects the matter, lists scoped files, renders a document artifact, approves and rejects gates, submits a filing, verifies supported and refused corpus answers, sends service, uploads proof, and asserts the visible audit trail.
+- UI hardening: the audit trail now displays the latest 24 scoped events so the full browser lifecycle still shows the early `document.artifact.rendered` event after filing, corpus, service, and proof events.
+- CI wiring: `.github/workflows/ci.yml` now runs `npm run test:e2e:local` with `@playwright/test` and uploads `proof/matter-cockpit-local.png`, `proof/playwright-results.json`, `proof/playwright-report`, and `proof/playwright-artifacts`.
+- RED receipt: the new Playwright spec initially failed on the prior local UI because the 12-event audit window dropped `document.artifact.rendered` after the full lifecycle run; after increasing the audit window, `npm run test:e2e:local` passes 1/1 and writes `proof/matter-cockpit-local.png`.
+- Pre-deploy staging receipt: running `npm run test:e2e:staging` against old `http://37.27.49.209:5174` failed on the stale deployed build after filing reject/recreate because the remote cockpit had not yet received this branch.
+- Local proof receipts: `/tmp/lexyos-pr` at commit `fc6b7a3` ran `npm test` (64/64 pass) and `npm run test:e2e:local` (1/1 pass). GitHub PR #6 checks passed: Node tests and HTTP smoke, Docker image smoke, and Playwright matter cockpit E2E.
+
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.
 - Confirm whether production should call `gog --account team drive ...` directly on Hetzner or an n8n webhook facade.
+
+## LexyOS Design Lane — final delivery 2026-05-25
+- Seven design system review: verified Skittles palette, Mike-like 4-column layout, typography stack (Inter/EB Garamond/mono), component library (buttons, badges, gate chips, status timeline), and app-level CSS selectors against existing `public/styles.css` + `public/index.html` + PRD requirements.
+- Design system memo frozen at `design-lane/LEXYOS-DESIGN-SYSTEM-MEMO.md`.
+- HTML preview artifact frozen at `design-lane/lexyos-design-preview.html` for Rog build reference.
+- Root delivery file written to `lexyco-design-lane-2026-05-25.md`.
+- All design artifacts uploaded to Drive folder: https://drive.google.com/drive/folders/10opD8aP9KQpQgAElK_WqU0aTGx6hrO-s
+- No code implemented — this is design-direction-only as per Willie order.
