@@ -238,6 +238,7 @@ async function generateDocumentArtifact() {
       payload: { requestId: requestResult.request.id, gateId: requestResult.gate.id, artifactId: artifact?.id ?? null },
     },
   });
+  state.selectedGate = requestResult.gate;
   await refreshMatterScopedData();
   renderAll();
   if (artifact) renderDocument(artifact);
@@ -270,6 +271,7 @@ async function createFilingPacketFromMatter() {
     },
   });
   state.lastFilingPacket = result.packet;
+  state.selectedGate = result.gate;
   await apiJson('/api/tasks', { method: 'POST', body: { id: `task_file_${result.packet.id}`, matterId: state.selectedMatter.id, title: 'Submit approved QDRO filing packet', kind: 'filing', requiresGate: result.gate.action, payload: { packetId: result.packet.id, gateId: result.gate.id } } });
   await refreshMatterScopedData();
   renderAll();
@@ -308,6 +310,7 @@ async function prepareServicePacketFromMatter() {
     },
   });
   state.lastServicePacket = result.packet;
+  state.selectedGate = result.gate;
   await apiJson('/api/tasks', { method: 'POST', body: { id: `task_send_${result.packet.id}`, matterId: state.selectedMatter.id, title: 'Send approved service packet', kind: 'service', requiresGate: result.gate.action, payload: { packetId: result.packet.id, gateId: result.gate.id } } });
   await refreshMatterScopedData();
   renderAll();

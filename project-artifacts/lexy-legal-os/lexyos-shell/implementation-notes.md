@@ -72,6 +72,17 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Receipt: `npm test` passes 55/55 after adding `tests/product-ui-workflows.test.mjs` and extending `tests/product-backend.test.mjs` for gate-to-task persistence.
 - Runtime smoke receipt on temp `LEXYOS_DATA_PATH`, port 5198: health=ok, `/`=200, `/public/app.mjs`=200, matter_count=2, generated artifact rendered, task_status=approved after gate approval, filing=submitted, corpus=True, service=sent, audit_events=11.
 
+## Runtime proof hardening — 2026-05-25
+- Product decision: workflow buttons now promote the gate they just created into `state.selectedGate` before refresh. This prevents stale/pending gates from hijacking the next Approve action and gives the local cockpit a deterministic document -> approve, filing -> approve -> submit, and service -> approve -> send flow.
+- RED receipt: `node --test tests/product-ui-workflows.test.mjs` failed on `workflow actions promote their newly created approval gate to the selected gate` before the UI fix.
+- GREEN receipt: `node --test tests/product-ui-workflows.test.mjs` passes 4/4 after the fix.
+- Full suite receipt: `npm test` passes 56/56.
+- Local server receipt: `PORT=5199 LEXYOS_DATA_PATH=$(mktemp -d)/lexyos.json npm start` served `http://127.0.0.1:5199` with seed-backed persistent JSON at `/var/folders/fb/n0drdntn5d15lmxd1h1zn7w00000gn/T/tmp.5BA0jEBULI/lexyos.json` during curl proof.
+- Curl proof receipts: `GET /api/health` returned `status=ok`; `GET /` returned HTTP 200 with 2876 bytes; `GET /public/app.mjs` returned HTTP 200 with 17977 bytes; `GET /api/matters` returned two matters (`Q-2026-001`, `INTAKE-2026-002`).
+- API workflow receipts: document request `docgen_Q-2026-001_runtime-qdro` created pending gate `gate_docgen_Q-2026-001_runtime-qdro`; artifact `artifact_docgen_Q-2026-001_runtime-qdro` rendered; approving the gate persisted task `runtime-review-task` from `ready` to `approved`; filing packet `runtime-filing` validated and submitted with receipt `manual-runtime-filing`; corpus search returned `supported=True` with one citation; service packet `runtime-service` was prepared, approved, and sent with tracking `TRACK-RUNTIME-001`; audit trail reached 11 events.
+- Playwright UI smoke receipt: `/opt/homebrew/opt/python@3.14/bin/python3.14 scripts/ui-smoke-proof.py` drove the browser through matter load, document artifact generation, gate approval, filing prepare/approve/submit, service prepare/approve/send/proof, corpus search, and Eva tracked-change proposal with an empty `#error-panel`. Screenshot captured at `proof/lexyos-ui-smoke.png`.
+- Remaining product gaps: live Google Drive/no-code DB adapters are still behind local adapter seams; no external services were called per task constraint. Production publication remains gated behind explicit review/publish tasks.
+
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.

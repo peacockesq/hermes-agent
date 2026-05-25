@@ -33,6 +33,16 @@ test('browser app wires every required product workflow to live API endpoints', 
   }
 });
 
+test('workflow actions promote their newly created approval gate to the selected gate', () => {
+  for (const pattern of [
+    /state\.selectedGate\s*=\s*requestResult\.gate/,
+    /state\.selectedGate\s*=\s*result\.gate/g,
+  ]) {
+    const matches = appSource.match(pattern) ?? [];
+    assert.ok(matches.length >= (pattern.global ? 2 : 1), `missing selected-gate promotion for ${pattern}`);
+  }
+});
+
 test('cockpit exposes controls and panels for document gates, filing, service, corpus, errors, and audit trail', () => {
   for (const id of [
     'generate-doc',
