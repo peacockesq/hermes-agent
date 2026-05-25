@@ -61,53 +61,53 @@
       }
     },
     {
-      "id": "Q-E2E-1779748089113-1l36pq",
-      "matter_id": "Q-E2E-1779748089113-1l36pq",
+      "id": "Q-E2E-1779752595056-g6jgvb",
+      "matter_id": "Q-E2E-1779752595056-g6jgvb",
       "tenantId": "peacock",
-      "client_display_name": "Playwright Client E2E-1779748089113-1l36pq",
+      "client_display_name": "Playwright Client E2E-1779752595056-g6jgvb",
       "matter_type": "QDRO",
       "stage": "e2e-proof",
-      "drive_folder_id": "drive-E2E-1779748089113-1l36pq",
+      "drive_folder_id": "drive-E2E-1779752595056-g6jgvb",
       "baseline_data": {
         "plan_name": "Fidelity 401(k)",
-        "case_number": "E2E-1779748089113-1l36pq",
+        "case_number": "E2E-1779752595056-g6jgvb",
         "court_name": "Superior Court",
         "jurisdiction": "CT",
         "participant": "Pat Participant",
-        "alternate_payee": "Playwright Client E2E-1779748089113-1l36pq"
+        "alternate_payee": "Playwright Client E2E-1779752595056-g6jgvb"
       },
       "source": "store",
-      "updatedAt": "2026-05-25T22:28:09.120Z",
-      "createdAt": "2026-05-25T22:28:09.120Z"
+      "updatedAt": "2026-05-25T23:43:15.063Z",
+      "createdAt": "2026-05-25T23:43:15.063Z"
     },
     {
-      "id": "UI-1779748089894",
-      "matter_id": "UI-1779748089894",
+      "id": "UI-1779752595150",
+      "matter_id": "UI-1779752595150",
       "tenantId": "peacock",
-      "client_display_name": "New Intake Client 1779748089894",
+      "client_display_name": "New Intake Client 1779752595150",
       "matter_type": "QDRO",
       "stage": "ui-created",
       "baseline_data": {
-        "plan_name": "UI Edited Plan E2E-1779748089113-1l36pq",
-        "case_number": "UI-1779748089894",
+        "plan_name": "UI Edited Plan E2E-1779752595056-g6jgvb",
+        "case_number": "UI-1779752595150",
         "jurisdiction": "CT",
         "participant": "Participant Name",
-        "alternate_payee": "New Intake Client 1779748089894"
+        "alternate_payee": "New Intake Client 1779752595150"
       },
       "source": "store",
-      "updatedAt": "2026-05-25T22:28:10.007Z",
-      "createdAt": "2026-05-25T22:28:09.896Z",
-      "clientName": "New Intake Client 1779748089894",
+      "updatedAt": "2026-05-25T23:43:15.242Z",
+      "createdAt": "2026-05-25T23:43:15.151Z",
+      "clientName": "New Intake Client 1779752595150",
       "matterType": "QDRO",
       "driveFolderId": null,
       "baseline": {
-        "plan_name": "UI Edited Plan E2E-1779748089113-1l36pq",
-        "case_number": "UI-1779748089894",
+        "plan_name": "UI Edited Plan E2E-1779752595056-g6jgvb",
+        "case_number": "UI-1779752595150",
         "jurisdiction": "CT",
         "participant": "Participant Name",
-        "alternate_payee": "New Intake Client 1779748089894"
+        "alternate_payee": "New Intake Client 1779752595150"
       },
-      "displayName": "New Intake Client 1779748089894 — QDRO",
+      "displayName": "New Intake Client 1779752595150 — QDRO",
       "updatedFrom": "lexyos-ui-baseline-editor"
     }
   ],
@@ -132,40 +132,40 @@
     },
     {
       "kind": "file",
-      "id": "file-E2E-1779748089113-1l36pq-qdro",
-      "name": "Draft QDRO E2E-1779748089113-1l36pq.docx",
+      "id": "file-E2E-1779752595056-g6jgvb-qdro",
+      "name": "Draft QDRO E2E-1779752595056-g6jgvb.docx",
       "type": "qdro",
       "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "content": "E2E draft QDRO content.",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
-      "updatedAt": "2026-05-25T22:28:09.128Z",
-      "createdAt": "2026-05-25T22:28:09.128Z"
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
+      "updatedAt": "2026-05-25T23:43:15.072Z",
+      "createdAt": "2026-05-25T23:43:15.072Z"
     },
     {
       "kind": "file",
-      "id": "file-E2E-1779748089113-1l36pq-judgment",
-      "name": "Judgment E2E-1779748089113-1l36pq.pdf",
+      "id": "file-E2E-1779752595056-g6jgvb-judgment",
+      "name": "Judgment E2E-1779752595056-g6jgvb.pdf",
       "type": "judgment",
       "mimeType": "application/pdf",
       "content": "E2E judgment content.",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
-      "updatedAt": "2026-05-25T22:28:09.132Z",
-      "createdAt": "2026-05-25T22:28:09.132Z"
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
+      "updatedAt": "2026-05-25T23:43:15.076Z",
+      "createdAt": "2026-05-25T23:43:15.076Z"
     },
     {
       "kind": "file",
-      "id": "ui_upload_UI-1779748089894_1779748090115",
-      "name": "UI Uploaded QDRO Note 1779748090115.txt",
+      "id": "ui_upload_UI-1779752595150_1779752595274",
+      "name": "UI Uploaded QDRO Note 1779752595274.txt",
       "type": "qdro",
       "mimeType": "text/plain",
-      "content": "Uploaded from LexyOS UI for Unnamed Matter — Matter at 2026-05-25T22:28:10.115Z.",
-      "matterId": "UI-1779748089894",
-      "updatedAt": "2026-05-25T22:28:10.117Z",
-      "createdAt": "2026-05-25T22:28:10.117Z"
+      "content": "Uploaded from LexyOS UI for Unnamed Matter — Matter at 2026-05-25T23:43:15.274Z.",
+      "matterId": "UI-1779752595150",
+      "updatedAt": "2026-05-25T23:43:15.276Z",
+      "createdAt": "2026-05-25T23:43:15.276Z"
     },
     {
-      "id": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "templateId": "qdro-draft",
       "engine": "docassemble",
       "outputType": "docx",
@@ -176,16 +176,16 @@
       },
       "payload": {
         "plan_name": "Fidelity 401(k)",
-        "case_number": "E2E-1779748089113-1l36pq",
+        "case_number": "E2E-1779752595056-g6jgvb",
         "court_name": "Superior Court",
         "jurisdiction": "CT",
         "participant": "Pat Participant",
-        "alternate_payee": "Playwright Client E2E-1779748089113-1l36pq",
+        "alternate_payee": "Playwright Client E2E-1779752595056-g6jgvb",
         "source": "store",
-        "updatedAt": "2026-05-25T22:28:09.120Z",
-        "createdAt": "2026-05-25T22:28:09.120Z",
-        "matter_id": "Q-E2E-1779748089113-1l36pq",
-        "client_display_name": "Playwright Client E2E-1779748089113-1l36pq"
+        "updatedAt": "2026-05-25T23:43:15.063Z",
+        "createdAt": "2026-05-25T23:43:15.063Z",
+        "matter_id": "Q-E2E-1779752595056-g6jgvb",
+        "client_display_name": "Playwright Client E2E-1779752595056-g6jgvb"
       },
       "requestedBy": "lexyos-ui",
       "kind": "document_request",
@@ -200,20 +200,20 @@
         "engine": "docassemble",
         "outputType": "docx"
       },
-      "updatedAt": "2026-05-25T22:28:10.413Z",
-      "createdAt": "2026-05-25T22:28:10.413Z"
+      "updatedAt": "2026-05-25T23:43:15.510Z",
+      "createdAt": "2026-05-25T23:43:15.510Z"
     },
     {
-      "id": "artifact_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "artifact_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "templateId": "qdro-draft",
       "outputType": "docx",
       "status": "rendered",
-      "content": "QDRO Draft\n\nplan_name: Fidelity 401(k)\ncase_number: E2E-1779748089113-1l36pq",
-      "createdAt": "2026-05-25T22:28:10.465Z",
+      "content": "QDRO Draft\n\nplan_name: Fidelity 401(k)\ncase_number: E2E-1779752595056-g6jgvb",
+      "createdAt": "2026-05-25T23:43:15.515Z",
       "kind": "artifact",
-      "sourceRequestId": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-      "updatedAt": "2026-05-25T22:28:10.465Z"
+      "sourceRequestId": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+      "updatedAt": "2026-05-25T23:43:15.515Z"
     }
   ],
   "tasks": [
@@ -227,94 +227,94 @@
       "payload": {}
     },
     {
-      "id": "task_review_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "task_review_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "title": "Attorney review generated QDRO artifact",
       "kind": "attorney_review",
       "assignedTo": "agent",
-      "requiresGate": "approve_document:docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+      "requiresGate": "approve_document:docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
       "gateId": null,
       "prerequisites": [],
       "payload": {
-        "requestId": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "gateId": "gate_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "artifactId": "artifact_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft"
+        "requestId": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "gateId": "gate_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "artifactId": "artifact_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft"
       },
       "status": "approved",
       "auditEvents": [],
-      "updatedAt": "2026-05-25T22:28:10.550Z",
-      "createdAt": "2026-05-25T22:28:10.468Z",
+      "updatedAt": "2026-05-25T23:43:15.568Z",
+      "createdAt": "2026-05-25T23:43:15.519Z",
       "gateDecision": {
-        "gateId": "gate_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+        "gateId": "gate_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
         "gateStatus": "approved",
         "reason": "approve from LexyOS local cockpit"
       }
     },
     {
-      "id": "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "title": "Submit approved QDRO filing packet",
       "kind": "filing",
       "assignedTo": "agent",
-      "requiresGate": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+      "requiresGate": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
       "gateId": null,
       "prerequisites": [],
       "payload": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090639"
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595607"
       },
       "status": "blocked",
       "auditEvents": [],
-      "updatedAt": "2026-05-25T22:28:10.734Z",
-      "createdAt": "2026-05-25T22:28:10.656Z",
+      "updatedAt": "2026-05-25T23:43:15.701Z",
+      "createdAt": "2026-05-25T23:43:15.623Z",
       "gateDecision": {
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
         "gateStatus": "rejected",
         "reason": "reject from LexyOS local cockpit"
       }
     },
     {
-      "id": "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "title": "Submit approved QDRO filing packet",
       "kind": "filing",
       "assignedTo": "agent",
-      "requiresGate": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+      "requiresGate": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
       "gateId": null,
       "prerequisites": [],
       "payload": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090794"
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595740"
       },
       "status": "approved",
       "auditEvents": [],
-      "updatedAt": "2026-05-25T22:28:10.977Z",
-      "createdAt": "2026-05-25T22:28:10.806Z",
+      "updatedAt": "2026-05-25T23:43:15.907Z",
+      "createdAt": "2026-05-25T23:43:15.757Z",
       "gateDecision": {
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
         "gateStatus": "approved",
         "reason": "approve from LexyOS local cockpit"
       }
     },
     {
-      "id": "task_send_service_Q-E2E-1779748089113-1l36pq_1779748091281",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "task_send_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "title": "Send approved service packet",
       "kind": "service",
       "assignedTo": "agent",
-      "requiresGate": "send_service:service_Q-E2E-1779748089113-1l36pq_1779748091281",
+      "requiresGate": "send_service:service_Q-E2E-1779752595056-g6jgvb_1779752596106",
       "gateId": null,
       "prerequisites": [],
       "payload": {
-        "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
-        "gateId": "gate_service_service_Q-E2E-1779748089113-1l36pq_1779748091281"
+        "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+        "gateId": "gate_service_service_Q-E2E-1779752595056-g6jgvb_1779752596106"
       },
       "status": "approved",
       "auditEvents": [],
-      "updatedAt": "2026-05-25T22:28:11.375Z",
-      "createdAt": "2026-05-25T22:28:11.289Z",
+      "updatedAt": "2026-05-25T23:43:16.228Z",
+      "createdAt": "2026-05-25T23:43:16.124Z",
       "gateDecision": {
-        "gateId": "gate_service_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+        "gateId": "gate_service_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
         "gateStatus": "approved",
         "reason": "approve from LexyOS local cockpit"
       }
@@ -322,14 +322,14 @@
   ],
   "gates": [
     {
-      "id": "gate_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "gate_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "type": "attorney_document_review",
       "requestedBy": "lexyos-ui",
-      "action": "approve_document:docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+      "action": "approve_document:docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
       "payload": {
-        "id": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "matterId": "Q-E2E-1779748089113-1l36pq",
+        "id": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "matterId": "Q-E2E-1779752595056-g6jgvb",
         "templateId": "qdro-draft",
         "engine": "docassemble",
         "outputType": "docx",
@@ -340,16 +340,16 @@
         },
         "payload": {
           "plan_name": "Fidelity 401(k)",
-          "case_number": "E2E-1779748089113-1l36pq",
+          "case_number": "E2E-1779752595056-g6jgvb",
           "court_name": "Superior Court",
           "jurisdiction": "CT",
           "participant": "Pat Participant",
-          "alternate_payee": "Playwright Client E2E-1779748089113-1l36pq",
+          "alternate_payee": "Playwright Client E2E-1779752595056-g6jgvb",
           "source": "store",
-          "updatedAt": "2026-05-25T22:28:09.120Z",
-          "createdAt": "2026-05-25T22:28:09.120Z",
-          "matter_id": "Q-E2E-1779748089113-1l36pq",
-          "client_display_name": "Playwright Client E2E-1779748089113-1l36pq"
+          "updatedAt": "2026-05-25T23:43:15.063Z",
+          "createdAt": "2026-05-25T23:43:15.063Z",
+          "matter_id": "Q-E2E-1779752595056-g6jgvb",
+          "client_display_name": "Playwright Client E2E-1779752595056-g6jgvb"
         },
         "requestedBy": "lexyos-ui",
         "kind": "document_request",
@@ -372,24 +372,24 @@
         "tenantId": "peacock",
         "role": "owner",
         "reason": "approve from LexyOS local cockpit",
-        "decidedAt": "2026-05-25T22:28:10.548Z"
+        "decidedAt": "2026-05-25T23:43:15.567Z"
       },
-      "updatedAt": "2026-05-25T22:28:10.549Z",
-      "createdAt": "2026-05-25T22:28:10.414Z"
+      "updatedAt": "2026-05-25T23:43:15.567Z",
+      "createdAt": "2026-05-25T23:43:15.511Z"
     },
     {
-      "id": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "type": "filing_approval",
-      "action": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+      "action": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
       "requestedBy": "local-agent",
       "requiredRole": "attorney",
       "status": "rejected",
       "payload": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090639"
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595607"
       },
-      "updatedAt": "2026-05-25T22:28:10.733Z",
-      "createdAt": "2026-05-25T22:28:10.642Z",
+      "updatedAt": "2026-05-25T23:43:15.700Z",
+      "createdAt": "2026-05-25T23:43:15.609Z",
       "decision": {
         "decidedBy": "local-owner",
         "tenantId": "peacock",
@@ -397,38 +397,38 @@
           "owner"
         ],
         "reason": "reject from LexyOS local cockpit",
-        "decidedAt": "2026-05-25T22:28:10.733Z"
+        "decidedAt": "2026-05-25T23:43:15.700Z"
       }
     },
     {
-      "id": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "type": "filing_approval",
-      "action": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+      "action": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
       "requestedBy": "local-agent",
       "requiredRole": "attorney",
       "status": "approved",
       "payload": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090794"
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595740"
       },
-      "updatedAt": "2026-05-25T22:28:10.975Z",
-      "createdAt": "2026-05-25T22:28:10.796Z",
+      "updatedAt": "2026-05-25T23:43:15.906Z",
+      "createdAt": "2026-05-25T23:43:15.742Z",
       "decision": {
         "decidedBy": "local-owner",
         "tenantId": "peacock",
         "role": "owner",
         "reason": "approve from LexyOS local cockpit",
-        "decidedAt": "2026-05-25T22:28:10.975Z"
+        "decidedAt": "2026-05-25T23:43:15.905Z"
       }
     },
     {
-      "id": "gate_service_service_Q-E2E-1779748089113-1l36pq_1779748091281",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "gate_service_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "type": "service_approval",
       "requestedBy": "agent",
-      "action": "send_service:service_Q-E2E-1779748089113-1l36pq_1779748091281",
+      "action": "send_service:service_Q-E2E-1779752595056-g6jgvb_1779752596106",
       "payload": {
-        "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281"
+        "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106"
       },
       "requiredRole": "paralegal",
       "status": "approved",
@@ -437,54 +437,54 @@
         "tenantId": "peacock",
         "role": "owner",
         "reason": "approve from LexyOS local cockpit",
-        "decidedAt": "2026-05-25T22:28:11.373Z"
+        "decidedAt": "2026-05-25T23:43:16.227Z"
       },
-      "updatedAt": "2026-05-25T22:28:11.374Z",
-      "createdAt": "2026-05-25T22:28:11.283Z"
+      "updatedAt": "2026-05-25T23:43:16.227Z",
+      "createdAt": "2026-05-25T23:43:16.109Z"
     },
     {
-      "id": "gate_proof_service_Q-E2E-1779748089113-1l36pq_1779748091281",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "gate_proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "type": "proof_of_service_review",
       "requestedBy": "system",
-      "action": "accept_proof:service_Q-E2E-1779748089113-1l36pq_1779748091281",
+      "action": "accept_proof:service_Q-E2E-1779752595056-g6jgvb_1779752596106",
       "payload": {
         "proofDocument": {
-          "id": "proof_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+          "id": "proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
           "name": "Proof of Service.pdf"
         },
         "extracted": {
-          "servedAt": "2026-05-25T22:28:11.572Z"
+          "servedAt": "2026-05-25T23:43:16.299Z"
         }
       },
       "requiredRole": "paralegal",
       "status": "pending",
       "decision": null,
-      "updatedAt": "2026-05-25T22:28:11.575Z",
-      "createdAt": "2026-05-25T22:28:11.575Z"
+      "updatedAt": "2026-05-25T23:43:16.302Z",
+      "createdAt": "2026-05-25T23:43:16.302Z"
     }
   ],
   "filingPackets": [
     {
-      "id": "filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "jurisdiction": "CT",
       "filingType": "QDRO filing",
       "documents": [
         {
-          "id": "file-E2E-1779748089113-1l36pq-qdro",
-          "name": "Draft QDRO E2E-1779748089113-1l36pq.docx",
+          "id": "file-E2E-1779752595056-g6jgvb-qdro",
+          "name": "Draft QDRO E2E-1779752595056-g6jgvb.docx",
           "type": "qdro",
           "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         },
         {
-          "id": "file-E2E-1779748089113-1l36pq-judgment",
-          "name": "Judgment E2E-1779748089113-1l36pq.pdf",
+          "id": "file-E2E-1779752595056-g6jgvb-judgment",
+          "name": "Judgment E2E-1779752595056-g6jgvb.pdf",
           "type": "judgment",
           "mimeType": "application/pdf"
         },
         {
-          "id": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+          "id": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
           "type": "supporting",
           "mimeType": "application/octet-stream"
         }
@@ -494,29 +494,29 @@
       "createdBy": "local-agent",
       "status": "draft",
       "history": [],
-      "updatedAt": "2026-05-25T22:28:10.642Z",
-      "createdAt": "2026-05-25T22:28:10.642Z"
+      "updatedAt": "2026-05-25T23:43:15.609Z",
+      "createdAt": "2026-05-25T23:43:15.609Z"
     },
     {
-      "id": "filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "jurisdiction": "CT",
       "filingType": "QDRO filing",
       "documents": [
         {
-          "id": "file-E2E-1779748089113-1l36pq-qdro",
-          "name": "Draft QDRO E2E-1779748089113-1l36pq.docx",
+          "id": "file-E2E-1779752595056-g6jgvb-qdro",
+          "name": "Draft QDRO E2E-1779752595056-g6jgvb.docx",
           "type": "qdro",
           "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         },
         {
-          "id": "file-E2E-1779748089113-1l36pq-judgment",
-          "name": "Judgment E2E-1779748089113-1l36pq.pdf",
+          "id": "file-E2E-1779752595056-g6jgvb-judgment",
+          "name": "Judgment E2E-1779752595056-g6jgvb.pdf",
           "type": "judgment",
           "mimeType": "application/pdf"
         },
         {
-          "id": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+          "id": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
           "type": "supporting",
           "mimeType": "application/octet-stream"
         }
@@ -528,33 +528,33 @@
       "history": [
         {
           "action": "submitted",
-          "at": "2026-05-25T22:28:11.093Z",
-          "receiptId": "manual-filing_Q-E2E-1779748089113-1l36pq_1779748090794"
+          "at": "2026-05-25T23:43:15.944Z",
+          "receiptId": "manual-filing_Q-E2E-1779752595056-g6jgvb_1779752595740"
         },
         {
           "action": "receipt",
-          "at": "2026-05-25T22:28:11.093Z",
+          "at": "2026-05-25T23:43:15.945Z",
           "receipt": {
             "connector": "manual",
-            "receiptId": "manual-filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+            "receiptId": "manual-filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
             "status": "submitted",
             "checklist": [
-              "Draft QDRO E2E-1779748089113-1l36pq.docx",
-              "Judgment E2E-1779748089113-1l36pq.pdf",
+              "Draft QDRO E2E-1779752595056-g6jgvb.docx",
+              "Judgment E2E-1779752595056-g6jgvb.pdf",
               null
             ]
           }
         }
       ],
-      "updatedAt": "2026-05-25T22:28:11.093Z",
-      "createdAt": "2026-05-25T22:28:10.795Z",
+      "updatedAt": "2026-05-25T23:43:15.945Z",
+      "createdAt": "2026-05-25T23:43:15.742Z",
       "submitted": {
         "connector": "manual",
-        "receiptId": "manual-filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+        "receiptId": "manual-filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
         "status": "submitted",
         "checklist": [
-          "Draft QDRO E2E-1779748089113-1l36pq.docx",
-          "Judgment E2E-1779748089113-1l36pq.pdf",
+          "Draft QDRO E2E-1779752595056-g6jgvb.docx",
+          "Judgment E2E-1779752595056-g6jgvb.pdf",
           null
         ]
       }
@@ -563,27 +563,27 @@
   "filingEvents": [],
   "servicePackets": [
     {
-      "id": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "id": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "recipient": "Plan Administrator",
       "vendor": "manual-local",
       "requirementId": "plan-admin-mail",
       "method": "mail",
       "documents": [
         {
-          "id": "file-E2E-1779748089113-1l36pq-qdro",
-          "name": "Draft QDRO E2E-1779748089113-1l36pq.docx",
+          "id": "file-E2E-1779752595056-g6jgvb-qdro",
+          "name": "Draft QDRO E2E-1779752595056-g6jgvb.docx",
           "type": "qdro",
           "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         },
         {
-          "id": "file-E2E-1779748089113-1l36pq-judgment",
-          "name": "Judgment E2E-1779748089113-1l36pq.pdf",
+          "id": "file-E2E-1779752595056-g6jgvb-judgment",
+          "name": "Judgment E2E-1779752595056-g6jgvb.pdf",
           "type": "judgment",
           "mimeType": "application/pdf"
         },
         {
-          "id": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+          "id": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
           "type": "supporting",
           "mimeType": "application/octet-stream"
         },
@@ -598,49 +598,49 @@
       "history": [
         {
           "action": "sent",
-          "at": "2026-05-25T22:28:11.486Z",
-          "trackingId": "LOCAL-1779748091483"
+          "at": "2026-05-25T23:43:16.269Z",
+          "trackingId": "LOCAL-1779752596266"
         },
         {
           "action": "proof_received",
-          "at": "2026-05-25T22:28:11.574Z",
+          "at": "2026-05-25T23:43:16.301Z",
           "proofDocument": {
-            "id": "proof_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+            "id": "proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
             "name": "Proof of Service.pdf"
           }
         }
       ],
-      "updatedAt": "2026-05-25T22:28:11.574Z",
-      "createdAt": "2026-05-25T22:28:11.283Z",
-      "trackingId": "LOCAL-1779748091483",
+      "updatedAt": "2026-05-25T23:43:16.301Z",
+      "createdAt": "2026-05-25T23:43:16.108Z",
+      "trackingId": "LOCAL-1779752596266",
       "proofDocument": {
-        "id": "proof_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+        "id": "proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
         "name": "Proof of Service.pdf"
       },
       "extracted": {
-        "servedAt": "2026-05-25T22:28:11.572Z"
+        "servedAt": "2026-05-25T23:43:16.299Z"
       }
     }
   ],
   "serviceEvents": [
     {
-      "id": "0f56c698-2b65-4a64-8959-670970ce8987",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
-      "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
+      "id": "db233977-03ac-49cc-bb8c-1ad621475edb",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
+      "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
       "action": "sent",
-      "trackingId": "LOCAL-1779748091483",
-      "createdAt": "2026-05-25T22:28:11.487Z"
+      "trackingId": "LOCAL-1779752596266",
+      "createdAt": "2026-05-25T23:43:16.270Z"
     },
     {
-      "id": "c85a52ad-fc82-47b7-ad03-7198c50b5db8",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
-      "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
+      "id": "4b019c10-f84c-41d6-9623-9a76c70afd9a",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
+      "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
       "action": "proof_received",
       "proofDocument": {
-        "id": "proof_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+        "id": "proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
         "name": "Proof of Service.pdf"
       },
-      "createdAt": "2026-05-25T22:28:11.576Z"
+      "createdAt": "2026-05-25T23:43:16.303Z"
     }
   ],
   "corpusSources": [
@@ -662,419 +662,419 @@
   "agentToolCalls": [],
   "auditEvents": [
     {
-      "id": "a56effaf-8841-45c5-bc28-45858267ab16",
-      "occurredAt": "2026-05-25T22:28:09.121Z",
+      "id": "62be0ef7-5901-4b8b-a1ed-2e740b342448",
+      "occurredAt": "2026-05-25T23:43:15.064Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "matter.upserted",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
         "source": "api"
       },
       "previousHash": null,
-      "hash": "8198bd6b04413f7fc6ad31b11c5ade611bdabb7aa6b87b58dfa90a5e9b84e1ba",
-      "createdAt": "2026-05-25T22:28:09.121Z"
+      "hash": "aa99269089dc8f596646157715476b7111f5b2cbdf1b417788d7820e8913c1a7",
+      "createdAt": "2026-05-25T23:43:15.065Z"
     },
     {
-      "id": "9114bfbb-b5eb-4b63-9545-9c8e023a27f5",
-      "occurredAt": "2026-05-25T22:28:09.129Z",
+      "id": "bfbba881-5899-462d-813a-ea0ec020391c",
+      "occurredAt": "2026-05-25T23:43:15.073Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "file.upserted",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "fileId": "file-E2E-1779748089113-1l36pq-qdro",
+        "fileId": "file-E2E-1779752595056-g6jgvb-qdro",
         "provider": "local"
       },
-      "previousHash": "8198bd6b04413f7fc6ad31b11c5ade611bdabb7aa6b87b58dfa90a5e9b84e1ba",
-      "hash": "b0973e747a1f2cb53e6467ff08dee532907be90b52cc4384a55c486e315d5514",
-      "createdAt": "2026-05-25T22:28:09.129Z"
+      "previousHash": "aa99269089dc8f596646157715476b7111f5b2cbdf1b417788d7820e8913c1a7",
+      "hash": "1e2e629ed6b3d171c290638c6199988f654aab467a5c331eed209abceb2aa665",
+      "createdAt": "2026-05-25T23:43:15.073Z"
     },
     {
-      "id": "514bf7de-55d5-41ca-9b9c-0b559b8c0bb4",
-      "occurredAt": "2026-05-25T22:28:09.132Z",
+      "id": "8ea19c34-6832-49b5-bb77-8185764733be",
+      "occurredAt": "2026-05-25T23:43:15.076Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "file.upserted",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "fileId": "file-E2E-1779748089113-1l36pq-judgment",
+        "fileId": "file-E2E-1779752595056-g6jgvb-judgment",
         "provider": "local"
       },
-      "previousHash": "b0973e747a1f2cb53e6467ff08dee532907be90b52cc4384a55c486e315d5514",
-      "hash": "8d9091ce0b888add923e20c8fddd7bf808e0b8e4e2520421899aa84f5e1315c2",
-      "createdAt": "2026-05-25T22:28:09.132Z"
+      "previousHash": "1e2e629ed6b3d171c290638c6199988f654aab467a5c331eed209abceb2aa665",
+      "hash": "3f9f9501a69c8626837d0bf63dddc63c58286e7cd0c4f5f35cd0134f8c57474f",
+      "createdAt": "2026-05-25T23:43:15.076Z"
     },
     {
-      "id": "093adced-503c-47f2-b298-608f78aa53d9",
-      "occurredAt": "2026-05-25T22:28:09.897Z",
+      "id": "c7921b0c-a2cd-4b88-9bd7-65e82f2e86bb",
+      "occurredAt": "2026-05-25T23:43:15.152Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "matter.upserted",
-      "matterId": "UI-1779748089894",
+      "matterId": "UI-1779752595150",
       "metadata": {
         "source": "api"
       },
-      "previousHash": "8d9091ce0b888add923e20c8fddd7bf808e0b8e4e2520421899aa84f5e1315c2",
-      "hash": "9df8598ad3563dfa24deb5d3e01eb935c57bf867d0babf823ca155beb17e02eb",
-      "createdAt": "2026-05-25T22:28:09.897Z"
+      "previousHash": "3f9f9501a69c8626837d0bf63dddc63c58286e7cd0c4f5f35cd0134f8c57474f",
+      "hash": "4406dc0317d8be9ff4da705261a885828c8582dd4e35b0272f6cd000cb31b494",
+      "createdAt": "2026-05-25T23:43:15.152Z"
     },
     {
-      "id": "7faed968-a611-4830-8ca7-d051db47c689",
-      "occurredAt": "2026-05-25T22:28:10.007Z",
+      "id": "2621195c-5696-4346-b686-9bf03e260332",
+      "occurredAt": "2026-05-25T23:43:15.243Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "matter.upserted",
-      "matterId": "UI-1779748089894",
+      "matterId": "UI-1779752595150",
       "metadata": {
         "source": "api"
       },
-      "previousHash": "9df8598ad3563dfa24deb5d3e01eb935c57bf867d0babf823ca155beb17e02eb",
-      "hash": "96fe6137f394ee22869794e59ca3f295208b9b33aeb84544c5d59ceb60878c80",
-      "createdAt": "2026-05-25T22:28:10.007Z"
+      "previousHash": "4406dc0317d8be9ff4da705261a885828c8582dd4e35b0272f6cd000cb31b494",
+      "hash": "cf8950d6bbb9f25b74570f30054b70d5f5444b1bba6bfbedcaf85efeb1be50ea",
+      "createdAt": "2026-05-25T23:43:15.243Z"
     },
     {
-      "id": "871c68b1-380e-4422-a85f-e9659b3f49b1",
-      "occurredAt": "2026-05-25T22:28:10.117Z",
+      "id": "d9feeae6-458a-44f7-9dce-25ebdf0fba9d",
+      "occurredAt": "2026-05-25T23:43:15.277Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "file.upserted",
-      "matterId": "UI-1779748089894",
+      "matterId": "UI-1779752595150",
       "metadata": {
-        "fileId": "ui_upload_UI-1779748089894_1779748090115",
+        "fileId": "ui_upload_UI-1779752595150_1779752595274",
         "provider": "local"
       },
-      "previousHash": "96fe6137f394ee22869794e59ca3f295208b9b33aeb84544c5d59ceb60878c80",
-      "hash": "1de85a5fd5804a79f486e6271505ff9016027677335b98f6f5a4ebffad4d2ee8",
-      "createdAt": "2026-05-25T22:28:10.117Z"
+      "previousHash": "cf8950d6bbb9f25b74570f30054b70d5f5444b1bba6bfbedcaf85efeb1be50ea",
+      "hash": "c4af75f39165d8db1dab5c9627011416b0228a2a324655df0c9ae591120e932f",
+      "createdAt": "2026-05-25T23:43:15.277Z"
     },
     {
-      "id": "0ddd268a-e805-4b76-a495-51a81d636d8e",
-      "occurredAt": "2026-05-25T22:28:10.181Z",
+      "id": "8dd29c21-395b-48fc-b521-0029b0b0ee5e",
+      "occurredAt": "2026-05-25T23:43:15.314Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "file.downloaded",
-      "matterId": "UI-1779748089894",
+      "matterId": "UI-1779752595150",
       "metadata": {
-        "fileId": "ui_upload_UI-1779748089894_1779748090115",
+        "fileId": "ui_upload_UI-1779752595150_1779752595274",
         "provider": "local"
       },
-      "previousHash": "1de85a5fd5804a79f486e6271505ff9016027677335b98f6f5a4ebffad4d2ee8",
-      "hash": "7b2a865ef7cbb404dfeab9e0205754041dc5ca6c5761a7ca54c60818e3d97458",
-      "createdAt": "2026-05-25T22:28:10.181Z"
+      "previousHash": "c4af75f39165d8db1dab5c9627011416b0228a2a324655df0c9ae591120e932f",
+      "hash": "f99ead4db679f03ee5939d79a6387e05c4dfa6cad9c4ac74d9fab620043aaeb2",
+      "createdAt": "2026-05-25T23:43:15.314Z"
     },
     {
-      "id": "bbcb373e-de9f-4ecc-9f8f-aba6866400e3",
-      "occurredAt": "2026-05-25T22:28:10.415Z",
+      "id": "796032cb-af31-469d-8ff1-dce0f494d58f",
+      "occurredAt": "2026-05-25T23:43:15.511Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "document.requested",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "requestId": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "gateId": "gate_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft"
+        "requestId": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "gateId": "gate_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft"
       },
-      "previousHash": "7b2a865ef7cbb404dfeab9e0205754041dc5ca6c5761a7ca54c60818e3d97458",
-      "hash": "8cdf86ef675c811278976c7d91f13f16025e819d514ac37bcd8a8a1a7a8ac310",
-      "createdAt": "2026-05-25T22:28:10.415Z"
+      "previousHash": "f99ead4db679f03ee5939d79a6387e05c4dfa6cad9c4ac74d9fab620043aaeb2",
+      "hash": "8128c78c6c0f156811a312d2c92d8fcb71d9189960669b89415b524c65272f9e",
+      "createdAt": "2026-05-25T23:43:15.512Z"
     },
     {
-      "id": "f1c9cefa-909a-4329-af2c-2a92a339f2c3",
-      "occurredAt": "2026-05-25T22:28:10.466Z",
+      "id": "f806039a-c3ad-44db-8157-e8a4f8dcfeb9",
+      "occurredAt": "2026-05-25T23:43:15.516Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "document.artifact.rendered",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "requestId": "docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "artifactId": "artifact_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft"
+        "requestId": "docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "artifactId": "artifact_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft"
       },
-      "previousHash": "8cdf86ef675c811278976c7d91f13f16025e819d514ac37bcd8a8a1a7a8ac310",
-      "hash": "fe31682fd0b5e6820becd686a1d2a0a2b66ebfc7296801e47c9f821eef242871",
-      "createdAt": "2026-05-25T22:28:10.466Z"
+      "previousHash": "8128c78c6c0f156811a312d2c92d8fcb71d9189960669b89415b524c65272f9e",
+      "hash": "a25266259157181de4591c9ea2a94f5a1a45559ecda59609778bd6eeba293613",
+      "createdAt": "2026-05-25T23:43:15.516Z"
     },
     {
-      "id": "f6afee63-834a-40dc-a0b9-8e1661f21533",
-      "occurredAt": "2026-05-25T22:28:10.469Z",
+      "id": "6252eee3-6f31-4287-ab9a-f17251f2d4a2",
+      "occurredAt": "2026-05-25T23:43:15.519Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "task.created",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "taskId": "task_review_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
-        "requiresGate": "approve_document:docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+        "taskId": "task_review_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
+        "requiresGate": "approve_document:docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
         "gateDecisionApplied": false
       },
-      "previousHash": "fe31682fd0b5e6820becd686a1d2a0a2b66ebfc7296801e47c9f821eef242871",
-      "hash": "023f0bde32967d141fb129be53e1a49a32b40ab1d0fef1c1dc9dd7e086988a51",
-      "createdAt": "2026-05-25T22:28:10.469Z"
+      "previousHash": "a25266259157181de4591c9ea2a94f5a1a45559ecda59609778bd6eeba293613",
+      "hash": "476fc17efc7f83105305f6c9e834689cb0e749fc94d7cc14651e4cd7bec9590e",
+      "createdAt": "2026-05-25T23:43:15.520Z"
     },
     {
-      "id": "2dc1c051-fe49-4bee-bf5c-d0f6908af23b",
-      "occurredAt": "2026-05-25T22:28:10.550Z",
+      "id": "4feba67d-9bd1-4670-8fed-39fd5ca25118",
+      "occurredAt": "2026-05-25T23:43:15.569Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "gate.approved",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "gateId": "gate_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft",
+        "gateId": "gate_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft",
         "reason": "approve from LexyOS local cockpit",
         "affectedTaskIds": [
-          "task_review_docgen_Q-E2E-1779748089113-1l36pq_qdro-draft"
+          "task_review_docgen_Q-E2E-1779752595056-g6jgvb_qdro-draft"
         ]
       },
-      "previousHash": "023f0bde32967d141fb129be53e1a49a32b40ab1d0fef1c1dc9dd7e086988a51",
-      "hash": "a551d0ae4aecbf4a2fa80051b086b62321a69346a94e0b5615667255f8bc69b1",
-      "createdAt": "2026-05-25T22:28:10.551Z"
+      "previousHash": "476fc17efc7f83105305f6c9e834689cb0e749fc94d7cc14651e4cd7bec9590e",
+      "hash": "0633a0a88cd87e806f40dc9b4df551afc891517c0077a56d3161a01cf67cd5d3",
+      "createdAt": "2026-05-25T23:43:15.569Z"
     },
     {
-      "id": "948f4511-72c6-45f6-9b46-a4401a093588",
-      "occurredAt": "2026-05-25T22:28:10.643Z",
+      "id": "31d0545a-c6d1-4b1c-86e5-aeddf957d8c7",
+      "occurredAt": "2026-05-25T23:43:15.610Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "filing.packet.prepared",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
         "valid": true
       },
-      "previousHash": "a551d0ae4aecbf4a2fa80051b086b62321a69346a94e0b5615667255f8bc69b1",
-      "hash": "c7943e21e4ec8b9ad6a5b10d2af7a358b14b2a866874859b599c5a563c262b15",
-      "createdAt": "2026-05-25T22:28:10.643Z"
+      "previousHash": "0633a0a88cd87e806f40dc9b4df551afc891517c0077a56d3161a01cf67cd5d3",
+      "hash": "d7e1bca8af1d8ddca58ba7b8cc8b6523116a5fbf7bebf831e26a3a449a702fe3",
+      "createdAt": "2026-05-25T23:43:15.610Z"
     },
     {
-      "id": "f01f0b4b-858a-42b4-a096-1d7859602d04",
-      "occurredAt": "2026-05-25T22:28:10.656Z",
+      "id": "bc578a7a-73da-45da-a275-4f5bb605b444",
+      "occurredAt": "2026-05-25T23:43:15.624Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "task.created",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "taskId": "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
-        "requiresGate": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+        "taskId": "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
+        "requiresGate": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
         "gateDecisionApplied": false
       },
-      "previousHash": "c7943e21e4ec8b9ad6a5b10d2af7a358b14b2a866874859b599c5a563c262b15",
-      "hash": "d78c686574cb360fa34e875892414e806ffe90b1a937df6daa370e8b2217044a",
-      "createdAt": "2026-05-25T22:28:10.657Z"
+      "previousHash": "d7e1bca8af1d8ddca58ba7b8cc8b6523116a5fbf7bebf831e26a3a449a702fe3",
+      "hash": "89f788f8f72f3304de07a263edf6da77bbc74e0271e9e0c4457e76837f498844",
+      "createdAt": "2026-05-25T23:43:15.624Z"
     },
     {
-      "id": "f4bd5132-3949-45c3-81d6-1044180a9d00",
-      "occurredAt": "2026-05-25T22:28:10.735Z",
+      "id": "6a044a5c-0239-4d20-9ca2-0e4a75a1b4c0",
+      "occurredAt": "2026-05-25T23:43:15.702Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "gate.rejected",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090639",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595607",
         "reason": "reject from LexyOS local cockpit",
         "affectedTaskIds": [
-          "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090639"
+          "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595607"
         ]
       },
-      "previousHash": "d78c686574cb360fa34e875892414e806ffe90b1a937df6daa370e8b2217044a",
-      "hash": "12ecbb204318f067d21ceb5ddfbd0b01817b4ead579f82e6c448066d0e19225b",
-      "createdAt": "2026-05-25T22:28:10.735Z"
+      "previousHash": "89f788f8f72f3304de07a263edf6da77bbc74e0271e9e0c4457e76837f498844",
+      "hash": "75e93e017974834ad06671bd6fca5d766c2eed38e88219b8d28e513f1164df1c",
+      "createdAt": "2026-05-25T23:43:15.702Z"
     },
     {
-      "id": "a1a12dc5-3a0b-4456-9431-6dd51d018ac6",
-      "occurredAt": "2026-05-25T22:28:10.797Z",
+      "id": "68658e4d-bc9d-4413-82fc-c90c69758fb9",
+      "occurredAt": "2026-05-25T23:43:15.743Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "filing.packet.prepared",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
         "valid": true
       },
-      "previousHash": "12ecbb204318f067d21ceb5ddfbd0b01817b4ead579f82e6c448066d0e19225b",
-      "hash": "3ec0b1f71edf874b4e7c5e61befc56a0f5ba613e4e72037b568ae4b389ad5d62",
-      "createdAt": "2026-05-25T22:28:10.797Z"
+      "previousHash": "75e93e017974834ad06671bd6fca5d766c2eed38e88219b8d28e513f1164df1c",
+      "hash": "96b31d4d3985e05028bfccae2dcca2e444f86297024f1eda176e8079c9fcd27b",
+      "createdAt": "2026-05-25T23:43:15.743Z"
     },
     {
-      "id": "e0a7cd91-1c1c-48e4-b2a2-a5b501339ed2",
-      "occurredAt": "2026-05-25T22:28:10.807Z",
+      "id": "e80ce596-0a28-4e66-847c-80497afcfe1b",
+      "occurredAt": "2026-05-25T23:43:15.758Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "task.created",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "taskId": "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-        "requiresGate": "submit_filing:filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+        "taskId": "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+        "requiresGate": "submit_filing:filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
         "gateDecisionApplied": false
       },
-      "previousHash": "3ec0b1f71edf874b4e7c5e61befc56a0f5ba613e4e72037b568ae4b389ad5d62",
-      "hash": "1a1ea3a2e15477486f4e1a16bfb519c83faa65371a2637bf7a8447ec4ef72c50",
-      "createdAt": "2026-05-25T22:28:10.807Z"
+      "previousHash": "96b31d4d3985e05028bfccae2dcca2e444f86297024f1eda176e8079c9fcd27b",
+      "hash": "e30df2f2a852f91dbd0090152622d625802b151b7a4e258a5b01492877311bc5",
+      "createdAt": "2026-05-25T23:43:15.758Z"
     },
     {
-      "id": "f07a931a-3b0b-4ee4-bcfd-f2dad1354769",
-      "occurredAt": "2026-05-25T22:28:10.977Z",
+      "id": "fc971c62-f582-4ad0-bf5e-855a2a11eee1",
+      "occurredAt": "2026-05-25T23:43:15.908Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "gate.approved",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "gateId": "gate_filing_Q-E2E-1779748089113-1l36pq_1779748090794",
+        "gateId": "gate_filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
         "reason": "approve from LexyOS local cockpit",
         "affectedTaskIds": [
-          "task_file_filing_Q-E2E-1779748089113-1l36pq_1779748090794"
+          "task_file_filing_Q-E2E-1779752595056-g6jgvb_1779752595740"
         ]
       },
-      "previousHash": "1a1ea3a2e15477486f4e1a16bfb519c83faa65371a2637bf7a8447ec4ef72c50",
-      "hash": "efc9ff2f7f351e2255639f189d7781cec86cb719ccea621fad6169e57360cbeb",
-      "createdAt": "2026-05-25T22:28:10.978Z"
+      "previousHash": "e30df2f2a852f91dbd0090152622d625802b151b7a4e258a5b01492877311bc5",
+      "hash": "af4fd0289137500c5c43dbf8a8bc0e86443c774c02e7d64995eea111de748cf0",
+      "createdAt": "2026-05-25T23:43:15.908Z"
     },
     {
-      "id": "37a517a5-514f-4e66-9472-7b0bd68d130c",
-      "occurredAt": "2026-05-25T22:28:11.094Z",
+      "id": "f7fcd9b3-4b7a-42df-a6d0-252084a232cc",
+      "occurredAt": "2026-05-25T23:43:15.946Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "filing.packet.submitted",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "filing_Q-E2E-1779748089113-1l36pq_1779748090794",
-        "receiptId": "manual-filing_Q-E2E-1779748089113-1l36pq_1779748090794"
+        "packetId": "filing_Q-E2E-1779752595056-g6jgvb_1779752595740",
+        "receiptId": "manual-filing_Q-E2E-1779752595056-g6jgvb_1779752595740"
       },
-      "previousHash": "efc9ff2f7f351e2255639f189d7781cec86cb719ccea621fad6169e57360cbeb",
-      "hash": "0a39b8f9aef4da0d3cde0ce08c8cedf7fd98691d1672b5f25436ff60679eaa39",
-      "createdAt": "2026-05-25T22:28:11.094Z"
+      "previousHash": "af4fd0289137500c5c43dbf8a8bc0e86443c774c02e7d64995eea111de748cf0",
+      "hash": "e70473aad3bf1a69e845a725eee9b571388b889fcc8139faca4d139f89f471c2",
+      "createdAt": "2026-05-25T23:43:15.946Z"
     },
     {
-      "id": "25c01bfd-f9c9-4379-bae0-d9f0c7e7bda0",
-      "occurredAt": "2026-05-25T22:28:11.157Z",
+      "id": "990f785c-0c73-43cb-9c66-4231fd88d39c",
+      "occurredAt": "2026-05-25T23:43:15.984Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "corpus.search.supported",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
         "query": "What does a QDRO draft require before filing?",
         "citations": 1
       },
-      "previousHash": "0a39b8f9aef4da0d3cde0ce08c8cedf7fd98691d1672b5f25436ff60679eaa39",
-      "hash": "256677de5191062c6cb719fde78f6d7f638f711216a484048e6937848b376af0",
-      "createdAt": "2026-05-25T22:28:11.157Z"
+      "previousHash": "e70473aad3bf1a69e845a725eee9b571388b889fcc8139faca4d139f89f471c2",
+      "hash": "5ad6c75cd8e966db033e005ddb708245c91db303bc57266b92f396fac8bc9745",
+      "createdAt": "2026-05-25T23:43:15.984Z"
     },
     {
-      "id": "6eb9bb35-2b76-4ccc-b878-a50e330d5fd3",
-      "occurredAt": "2026-05-25T22:28:11.269Z",
+      "id": "9a95742f-2689-4570-9a25-a6a537ba29cd",
+      "occurredAt": "2026-05-25T23:43:16.097Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "corpus.search.refused",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
         "query": "alien spaceship transfer rules",
         "citations": 0
       },
-      "previousHash": "256677de5191062c6cb719fde78f6d7f638f711216a484048e6937848b376af0",
-      "hash": "d1a433366d2e4a700c6d5496b7069c4e06ac06263b4c1d91166f22bb711efabb",
-      "createdAt": "2026-05-25T22:28:11.270Z"
+      "previousHash": "5ad6c75cd8e966db033e005ddb708245c91db303bc57266b92f396fac8bc9745",
+      "hash": "e353c05f6fec17b198a3878a33fc1fa966f5bfd6f64128dada6d9c094c32e009",
+      "createdAt": "2026-05-25T23:43:16.097Z"
     },
     {
-      "id": "666b1d3b-85a4-404e-9b83-2a2cf5cb4504",
-      "occurredAt": "2026-05-25T22:28:11.284Z",
+      "id": "2be64036-1b76-4c58-a008-e886c902a100",
+      "occurredAt": "2026-05-25T23:43:16.110Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "service.packet.prepared",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
-        "gateId": "gate_service_service_Q-E2E-1779748089113-1l36pq_1779748091281"
+        "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+        "gateId": "gate_service_service_Q-E2E-1779752595056-g6jgvb_1779752596106"
       },
-      "previousHash": "d1a433366d2e4a700c6d5496b7069c4e06ac06263b4c1d91166f22bb711efabb",
-      "hash": "5933b751bc2d6ef5922469acf7e4429b7c4555874be5bcbe9935fa4e9bcaeadf",
-      "createdAt": "2026-05-25T22:28:11.284Z"
+      "previousHash": "e353c05f6fec17b198a3878a33fc1fa966f5bfd6f64128dada6d9c094c32e009",
+      "hash": "bb84ee44502c6bcb1e3242997aa470d1839a91f2942e51ba6ebd1fb76f05c28e",
+      "createdAt": "2026-05-25T23:43:16.110Z"
     },
     {
-      "id": "0ea86565-f194-432d-a27d-2572ad2b9ab4",
-      "occurredAt": "2026-05-25T22:28:11.290Z",
+      "id": "f26cabef-1413-48c3-bd7c-8cab1a6b92e9",
+      "occurredAt": "2026-05-25T23:43:16.125Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "task.created",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "taskId": "task_send_service_Q-E2E-1779748089113-1l36pq_1779748091281",
-        "requiresGate": "send_service:service_Q-E2E-1779748089113-1l36pq_1779748091281",
+        "taskId": "task_send_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+        "requiresGate": "send_service:service_Q-E2E-1779752595056-g6jgvb_1779752596106",
         "gateDecisionApplied": false
       },
-      "previousHash": "5933b751bc2d6ef5922469acf7e4429b7c4555874be5bcbe9935fa4e9bcaeadf",
-      "hash": "c34c13a2636a1aeea6126ce97555e1da813215951cadebd26ce1088a81980ed7",
-      "createdAt": "2026-05-25T22:28:11.290Z"
+      "previousHash": "bb84ee44502c6bcb1e3242997aa470d1839a91f2942e51ba6ebd1fb76f05c28e",
+      "hash": "2da0429841bfecce17d37886b4afece5729a8938e442052dc0c0c058141f8c2a",
+      "createdAt": "2026-05-25T23:43:16.125Z"
     },
     {
-      "id": "9898a3e1-15f2-4361-a085-0f844a0a6840",
-      "occurredAt": "2026-05-25T22:28:11.375Z",
+      "id": "08ec2a61-0d04-4a9f-9fd5-66b5868a8641",
+      "occurredAt": "2026-05-25T23:43:16.229Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "gate.approved",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "gateId": "gate_service_service_Q-E2E-1779748089113-1l36pq_1779748091281",
+        "gateId": "gate_service_service_Q-E2E-1779752595056-g6jgvb_1779752596106",
         "reason": "approve from LexyOS local cockpit",
         "affectedTaskIds": [
-          "task_send_service_Q-E2E-1779748089113-1l36pq_1779748091281"
+          "task_send_service_Q-E2E-1779752595056-g6jgvb_1779752596106"
         ]
       },
-      "previousHash": "c34c13a2636a1aeea6126ce97555e1da813215951cadebd26ce1088a81980ed7",
-      "hash": "d9418dc240f7530c0a56f981ef4e15700c221d0168f84a4c722755bb9ffef15e",
-      "createdAt": "2026-05-25T22:28:11.376Z"
+      "previousHash": "2da0429841bfecce17d37886b4afece5729a8938e442052dc0c0c058141f8c2a",
+      "hash": "f78186bc070d7a302b9003c0eb2822fde2f2bc8231b97fab229eb791481410e1",
+      "createdAt": "2026-05-25T23:43:16.229Z"
     },
     {
-      "id": "4b343e06-5d2a-4795-b215-3d91c20f5359",
-      "occurredAt": "2026-05-25T22:28:11.487Z",
+      "id": "17e15caf-9f08-48c4-84cd-589d344bf009",
+      "occurredAt": "2026-05-25T23:43:16.271Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "service.packet.sent",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
-        "trackingId": "LOCAL-1779748091483"
+        "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+        "trackingId": "LOCAL-1779752596266"
       },
-      "previousHash": "d9418dc240f7530c0a56f981ef4e15700c221d0168f84a4c722755bb9ffef15e",
-      "hash": "8ed55a523da79e231f9d3c6f0a000d3d6c9ef028d105573f283211b2db06b810",
-      "createdAt": "2026-05-25T22:28:11.488Z"
+      "previousHash": "f78186bc070d7a302b9003c0eb2822fde2f2bc8231b97fab229eb791481410e1",
+      "hash": "25ac7f457c3a9e536dec3d96743bac552bddaa67f27aacfefc3f1a1d20fcbcdb",
+      "createdAt": "2026-05-25T23:43:16.271Z"
     },
     {
-      "id": "819021c5-9da4-494e-a026-26e70acef45e",
-      "occurredAt": "2026-05-25T22:28:11.577Z",
+      "id": "f079b84c-6443-40de-9d13-0ca62fe59a64",
+      "occurredAt": "2026-05-25T23:43:16.304Z",
       "actor": "local-backend",
       "actorType": "system",
       "source": "api",
       "action": "service.proof.received",
-      "matterId": "Q-E2E-1779748089113-1l36pq",
+      "matterId": "Q-E2E-1779752595056-g6jgvb",
       "metadata": {
-        "packetId": "service_Q-E2E-1779748089113-1l36pq_1779748091281",
-        "gateId": "gate_proof_service_Q-E2E-1779748089113-1l36pq_1779748091281"
+        "packetId": "service_Q-E2E-1779752595056-g6jgvb_1779752596106",
+        "gateId": "gate_proof_service_Q-E2E-1779752595056-g6jgvb_1779752596106"
       },
-      "previousHash": "8ed55a523da79e231f9d3c6f0a000d3d6c9ef028d105573f283211b2db06b810",
-      "hash": "cb6fe5c4d85cbd5247fc3734ff465be27e139af93c289f7fc0bb3ece3967a5c5",
-      "createdAt": "2026-05-25T22:28:11.577Z"
+      "previousHash": "25ac7f457c3a9e536dec3d96743bac552bddaa67f27aacfefc3f1a1d20fcbcdb",
+      "hash": "fce45fca78f462c3e05fd1996d34e34d253f1a7cd853d27ff614fa9820795134",
+      "createdAt": "2026-05-25T23:43:16.304Z"
     }
   ]
 }
