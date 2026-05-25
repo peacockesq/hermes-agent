@@ -54,8 +54,17 @@ test('HTTP product backend persists matter, file, task, gate, audit, and generat
   assert.equal(artifact.status, 201);
   assert.match(artifact.body.content, /Vanguard/);
 
-  const task = await api('/api/tasks', { method: 'POST', body: { id: 'task-q2-review', matterId: 'Q-2', title: 'Review generated QDRO' } });
+  const task = await api('/api/tasks', { method: 'POST', body: { id: 'task-q2-review', matterId: 'Q-2', title: 'Review generated QDRO', requiresGate: docRequest.body.gate.action } });
   assert.equal(task.status, 201);
+
+  const rejectedRequest = await api('/api/document-requests', { method: 'POST', body: { matterId: 'Q-2', template: { id: 'qdro-reject-check', name: 'QDRO Reject Check', practiceArea: 'family_qdro', requiredFacts: ['plan_name', 'case_number'] } } });
+  await api('/api/tasks', { method: 'POST', body: { id: 'task-q2-rejected-review', matterId: 'Q-2', title: 'Rejected draft review', requiresGate: rejectedRequest.body.gate.action } });
+  const rejectedGate = await api(`/api/gates/${rejectedRequest.body.gate.id}/reject`, { method: 'POST', body: { reason: 'needs edits' } });
+  assert.equal(rejectedGate.body.status, 'rejected');
+
+  const tasksAfterGateDecisions = await api('/api/tasks');
+  assert.equal(tasksAfterGateDecisions.body.find((item) => item.id === 'task-q2-review').status, 'approved');
+  assert.equal(tasksAfterGateDecisions.body.find((item) => item.id === 'task-q2-rejected-review').status, 'blocked');
 
   const audit = await api('/api/audit-events');
   assert.equal(audit.status, 200);

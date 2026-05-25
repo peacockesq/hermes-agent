@@ -101,7 +101,8 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
         ? approveGate(gate, { session: systemSession, matter, reason: body.reason ?? '' })
         : rejectGate(gate, { session: systemSession, matter, reason: body.reason ?? 'rejected' });
       await store.upsert('gates', decided);
-      await audit(`gate.${decided.status}`, gate.matterId, { gateId, reason: body.reason ?? '' });
+      const affectedTasks = await applyGateDecisionToTasks(decided, body.reason ?? '');
+      await audit(`gate.${decided.status}`, gate.matterId, { gateId, reason: body.reason ?? '', affectedTaskIds: affectedTasks.map((task) => task.id) });
       return ok(decided);
     }
 
@@ -109,9 +110,24 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
     if (method === 'POST' && segments.length === 1 && segments[0] === 'tasks') {
       if (body.matterId) await requireMatter(body.matterId);
       const task = createTask({ id: body.id ?? `task_${randomUUID()}`, matterId: body.matterId, title: body.title, kind: body.kind, assignedTo: body.assignedTo, requiresGate: body.requiresGate, prerequisites: body.prerequisites ?? [], payload: body.payload ?? {} });
-      await store.upsert('tasks', { ...task, ...body, id: task.id });
-      await audit('task.created', body.matterId ?? null, { taskId: task.id });
-      return created(task);
+      const gateDecision = body.requiresGate ? await findExistingGateDecision({ matterId: body.matterId, requiresGate: body.requiresGate }) : null;
+      const persistedTask = {
+        ...task,
+        ...body,
+        id: task.id,
+        ...(gateDecision ? {
+          status: gateDecision.status === 'approved' ? 'approved' : 'blocked',
+          gateDecision: {
+            gateId: gateDecision.id,
+            gateStatus: gateDecision.status,
+            decidedAt: gateDecision.decidedAt,
+            reason: gateDecision.reason ?? '',
+          },
+        } : {}),
+      };
+      await store.upsert('tasks', persistedTask);
+      await audit('task.created', body.matterId ?? null, { taskId: task.id, requiresGate: body.requiresGate ?? null, gateDecisionApplied: Boolean(gateDecision) });
+      return created(persistedTask);
     }
 
     if (method === 'GET' && segments.length === 1 && segments[0] === 'audit-events') return ok(await store.all('auditEvents'));
@@ -193,6 +209,30 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
     const row = await store.get(collection, id);
     if (!row) throw httpError(404, code);
     return row;
+  }
+
+  async function findExistingGateDecision({ matterId, requiresGate }) {
+    return (await store.all('gates')).find((gate) => gate.matterId === matterId && [gate.type, gate.action].includes(requiresGate) && ['approved', 'rejected'].includes(gate.status)) ?? null;
+  }
+
+  async function applyGateDecisionToTasks(gate, reason = '') {
+    const tasks = await store.all('tasks');
+    const nextStatus = gate.status === 'approved' ? 'approved' : gate.status === 'rejected' ? 'blocked' : null;
+    if (!nextStatus) return [];
+    const affected = tasks.filter((task) => task.matterId === gate.matterId && [gate.type, gate.action].includes(task.requiresGate));
+    for (const task of affected) {
+      await store.upsert('tasks', {
+        ...task,
+        status: nextStatus,
+        gateDecision: {
+          gateId: gate.id,
+          gateStatus: gate.status,
+          decidedAt: gate.decidedAt,
+          reason,
+        },
+      });
+    }
+    return affected;
   }
 
   async function audit(action, matterId = null, metadata = {}) {

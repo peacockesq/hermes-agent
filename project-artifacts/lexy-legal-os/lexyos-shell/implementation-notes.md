@@ -65,8 +65,12 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - `npm start` now runs `node src/server.mjs`, a local Node HTTP server that serves the cockpit UI and same-origin JSON APIs. It binds to `127.0.0.1:5174` by default and does not call external services.
 - Persistence is JSON-file backed through the existing store facade. Default mutable state is `data/lexyos.json`; `npm run reset:data` rebuilds it from `data/seed.json`; tests override `LEXYOS_DATA_PATH`/constructor data paths with temp files.
 - API workflows now cover matters, matter files, document generation requests/artifacts, gates approve/reject, tasks, hash-chained audit events, filing packet/status/submission, corpus search with explicit unsupported refusal, and service packet/send/proof lifecycle.
-- The browser cockpit now hydrates matters, matter files, and corpus answers from the local API and falls back to module demo data only if the local backend is unreachable.
-- Receipt: `npm test` passes 52/52 after adding `tests/product-backend.test.mjs`, preserving the existing module suite while proving endpoint behavior and persistence.
+- Browser cockpit is now API-only: it no longer imports `src/*`, embeds demo matters/files, or shows fake success when the backend is unavailable. API errors render in `#error-panel`.
+- Gate decisions update matching task state as persistent API state: approved gates mark matching gate-bound tasks `approved`, rejected gates mark them `blocked`, and audit metadata records affected task IDs.
+- UI workflows wired to live endpoints: matter selection from `/api/matters`, drilldown files from `/api/matters/:id/files`, document generation + artifact persistence, gate approve/reject, filing prepare/submit, corpus search, service prepare/send/proof, task panels, and visible audit trail.
+- Receipt: strict RED test `node --test tests/product-ui-workflows.test.mjs` failed before UI implementation because the browser app imported server modules/static demo data and lacked workflow controls; it passes after implementation.
+- Receipt: `npm test` passes 55/55 after adding `tests/product-ui-workflows.test.mjs` and extending `tests/product-backend.test.mjs` for gate-to-task persistence.
+- Runtime smoke receipt on temp `LEXYOS_DATA_PATH`, port 5198: health=ok, `/`=200, `/public/app.mjs`=200, matter_count=2, generated artifact rendered, task_status=approved after gate approval, filing=submitted, corpus=True, service=sent, audit_events=11.
 
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
