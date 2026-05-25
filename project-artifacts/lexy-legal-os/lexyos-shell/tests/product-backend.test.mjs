@@ -111,6 +111,50 @@ test('task gateId disambiguates same-type gates on one matter', async (t) => {
   assert.equal(tasks.body.find((item) => item.id === 'task-target-review').gateDecision.gateId, targetRequest.body.gate.id);
 });
 
+test('HTTP file endpoints use selected-matter storage adapter scope and fallback upload results', async (t) => {
+  const dir = await mkdtemp(join(tmpdir(), 'lexyos-product-storage-'));
+  t.after(async () => rm(dir, { recursive: true, force: true }));
+  const calls = [];
+  const storageAdapter = {
+    provider: 'google_drive',
+    listMatterFiles: async (matter) => {
+      calls.push(['list', matter.id, matter.driveFolderId]);
+      return [{ id: 'drive-q1-doc', name: 'Drive Q1.pdf', source: 'google_drive', folderId: matter.driveFolderId }];
+    },
+    requestUpload: async ({ matter, file }) => {
+      calls.push(['upload', matter.id, matter.driveFolderId, file.name]);
+      return { ok: false, reason: 'upload_adapter_not_configured' };
+    },
+  };
+  const seed = {
+    users: [{ id: 'local-owner', email: 'local-owner@lexyos.test', memberships: [{ tenantId: 'peacock', roles: ['owner'], globalMatterAccess: true }] }],
+    sessions: [{ id: 'local-dev-owner', userId: 'local-owner', tenantId: 'peacock', provider: 'test' }],
+    matters: [{ id: 'Q-1', tenantId: 'peacock', client_display_name: 'Jane Doe', drive_folder_id: 'folder-q1' }],
+  };
+  const { server } = createLexyProductServer({ dataPath: join(dir, 'lexyos.json'), seed, storageAdapter });
+  server.listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  t.after(() => new Promise((resolve) => server.close(resolve)));
+  const baseUrl = `http://127.0.0.1:${server.address().port}`;
+  const request = async (path, options = {}) => {
+    const response = await fetch(`${baseUrl}${path}`, {
+      ...options,
+      headers: { 'content-type': 'application/json', 'x-lexyos-session-id': 'local-dev-owner', ...(options.headers ?? {}) },
+      body: options.body && typeof options.body !== 'string' ? JSON.stringify(options.body) : options.body,
+    });
+    return { status: response.status, body: await response.json() };
+  };
+
+  const list = await request('/api/matters/Q-1/files');
+  assert.equal(list.status, 200);
+  assert.deepEqual(list.body.map((file) => file.id), ['drive-q1-doc']);
+
+  const upload = await request('/api/matters/Q-1/files', { method: 'POST', body: { name: 'New.pdf' } });
+  assert.equal(upload.status, 503);
+  assert.equal(upload.body.error, 'upload_adapter_not_configured');
+  assert.deepEqual(calls, [['list', 'Q-1', 'folder-q1'], ['upload', 'Q-1', 'folder-q1', 'New.pdf']]);
+});
+
 test('backend exposes filing, corpus refusal, and service/proof lifecycles over API', async (t) => {
   const { api } = await withServer(t);
 

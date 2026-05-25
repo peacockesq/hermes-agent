@@ -1,6 +1,25 @@
 {
-  "rootFolderId": "1H-QI7MRbbXgoPjSvdNoXg4mjB5PZ0JSM",
-  "rootFolderName": "2026 Permanent Matter Files",
+  "storage": {
+    "defaultProvider": "local",
+    "ossSafeProvider": "mock",
+    "providers": {
+      "local": {
+        "enabled": true,
+        "description": "JSON/file-backed matter documents stored in the LexyOS data store. No external services required."
+      },
+      "mock": {
+        "enabled": true,
+        "description": "Safe no-op provider for OSS demos and tests when live storage is not configured."
+      },
+      "googleDrive": {
+        "enabled": false,
+        "accountAliasEnv": "LEXYOS_GOG_ACCOUNT",
+        "rootFolderIdEnv": "LEXYOS_DRIVE_ROOT_FOLDER_ID",
+        "folderPerMatter": true,
+        "description": "Live product adapter boundary through GOG/team Google Workspace. Do not commit Peacock-specific folder IDs."
+      }
+    }
+  },
   "sources": {
     "nocodb": {
       "enabled": true,
@@ -15,12 +34,6 @@
       "env": {
         "endpoint": "LEXY_INTAKE_MATTERS_ENDPOINT"
       }
-    },
-    "googleDrive": {
-      "enabled": true,
-      "accountAlias": "team",
-      "folderPerMatter": true,
-      "canonicalRoot": "2026 Permanent Matter Files/Clients"
     }
   }
 }

@@ -27,9 +27,37 @@ LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm run reset:data
 LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm start
 ```
 
+## Storage providers
+
+LexyOS storage is adapter-driven so the same matter/file workflow can run as OSS/local software or as a hosted product.
+
+Providers:
+
+- `local` — default product backend provider. Matter files are stored in the JSON data store through `src/storage.mjs`; no external services are contacted.
+- `mock` — safe no-op provider for OSS/demo mode. Listing returns an empty array and upload/download requests return explicit no-op errors instead of touching Drive.
+- `google_drive` — live product adapter boundary through GOG/team Google Workspace. Matter file operations are scoped to the selected matter folder (`driveFolderId` / `drive_folder_id`) and never fall back to the Drive root for file listing or downloads.
+
+Environment sample:
+
+```bash
+cp .env.example .env
+LEXYOS_STORAGE_PROVIDER=local npm start
+
+# Safe OSS/no-op mode
+LEXYOS_STORAGE_PROVIDER=mock npm start
+
+# Live Drive product mode; do not commit real folder IDs or tokens
+LEXYOS_STORAGE_PROVIDER=google_drive \
+LEXYOS_GOG_ACCOUNT=team \
+LEXYOS_DRIVE_ROOT_FOLDER_ID=<deployment-root-folder-id> \
+npm start
+```
+
+`config/integrations.json` intentionally references env var names, not Peacock-specific Drive IDs. Hosted deployments inject `LEXYOS_DRIVE_ROOT_FOLDER_ID`; OSS/local clones do not need it.
+
 ## Local API surface
 
-All endpoints are local-only unless you deliberately bind the server differently. No external services are contacted.
+All endpoints are local-only unless you deliberately bind the server differently. No external services are contacted by the default local provider.
 
 - `GET /api/health`
 - `GET /api/matters`, `POST /api/matters`
@@ -53,7 +81,7 @@ curl -s http://127.0.0.1:5174/api/matters
 
 - `src/matters.mjs` — normalizes matter rows and searches baseline data.
 - `src/repository.mjs` — source adapter pattern for no-code DB and intake systems.
-- `src/storage.mjs` — Drive-folder-per-matter storage adapter.
+- `src/storage.mjs` — interchangeable local/mock/Google Drive matter storage adapters plus GOG Drive boundary.
 - `src/eva.mjs` — Eva context and tracked-change proposal primitives.
 - `src/auth.mjs` — tenant-aware B2B SSO/session/role/permission contract for unified LexyOS login.
 - `src/oidc.mjs` — OIDC claim validation/session creation contract with issuer/audience/domain/member checks.

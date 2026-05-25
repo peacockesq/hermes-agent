@@ -12,6 +12,7 @@ import { createTask } from './tasks.mjs';
 import { createFilingPacket, getFilingStatus, ingestFilingReceipt, requestFilingApproval, submitApprovedFiling, validateFilingPacket } from './filing.mjs';
 import { answerWithCitations, createCorpusSearchBridge } from './corpus.mjs';
 import { defineServiceRequirement, ingestProofOfService, markServiceSent, prepareServicePacket, requestServiceApproval } from './service.mjs';
+import { createLocalMatterStorage } from './storage.mjs';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = resolve(__dirname, '..');
@@ -27,15 +28,16 @@ export async function loadDefaultSeed(seedPath = defaultSeedPath) {
   }
 }
 
-export function createLexyProductServer({ dataPath = process.env.LEXYOS_DATA_PATH ?? defaultDataPath, seed = {}, publicDir = resolve(projectRoot, 'public'), sessionResolver = null } = {}) {
-  const app = createLexyProductApp({ dataPath, seed, publicDir, sessionResolver });
+export function createLexyProductServer({ dataPath = process.env.LEXYOS_DATA_PATH ?? defaultDataPath, seed = {}, publicDir = resolve(projectRoot, 'public'), sessionResolver = null, storageAdapter = null } = {}) {
+  const app = createLexyProductApp({ dataPath, seed, publicDir, sessionResolver, storageAdapter });
   const server = http.createServer((request, response) => app.handleHttp(request, response));
   return { server, app };
 }
 
-export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, publicDir = resolve(projectRoot, 'public'), sessionResolver = null } = {}) {
+export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, publicDir = resolve(projectRoot, 'public'), sessionResolver = null, storageAdapter = null } = {}) {
   const store = createJsonFileStore({ path: dataPath, seed });
   const repository = createMatterRepository({ store });
+  const storage = storageAdapter ?? createLocalMatterStorage({ store });
   const resolveSession = sessionResolver ?? createStoreBackedSessionResolver(store);
 
   async function handleApi(method, pathname, body = {}, context = {}) {
@@ -70,16 +72,17 @@ export function createLexyProductApp({ dataPath = defaultDataPath, seed = {}, pu
     }
     if (method === 'GET' && segments.length === 3 && segments[0] === 'matters' && segments[2] === 'files') {
       const matterId = decodeURIComponent(segments[1]);
-      await requireMatter(matterId, session);
-      return ok((await store.all('documents')).filter((document) => document.matterId === matterId && document.kind !== 'artifact'));
+      const matter = await requireMatter(matterId, session);
+      return ok(await storage.listMatterFiles(matter));
     }
     if (method === 'POST' && segments.length === 3 && segments[0] === 'matters' && segments[2] === 'files') {
       requirePermission(session, LEXY_PERMISSIONS.MATTER_WRITE);
       const matterId = decodeURIComponent(segments[1]);
-      await requireMatter(matterId, session);
-      const file = await store.upsert('documents', { id: body.id ?? `file_${randomUUID()}`, matterId, kind: 'file', ...body });
-      await audit('file.upserted', matterId, { fileId: file.id });
-      return created(file);
+      const matter = await requireMatter(matterId, session);
+      const result = await storage.requestUpload({ matter, file: { id: body.id ?? `file_${randomUUID()}`, ...body } });
+      if (!result.ok) return { status: 503, body: { error: result.reason ?? 'storage_upload_failed', provider: storage.provider ?? 'unknown' } };
+      await audit('file.upserted', matterId, { fileId: result.file?.id ?? body.id, provider: storage.provider ?? result.provider ?? 'unknown' });
+      return created(result.file ?? result);
     }
 
     if (method === 'GET' && segments.length === 1 && segments[0] === 'document-requests') {

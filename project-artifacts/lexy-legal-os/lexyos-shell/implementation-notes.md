@@ -28,9 +28,11 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - When Slack status changes are propagated to NoCoDB, write both canonical `stage`/`stage_updated_at` and legacy `Current Status`/`Status Updated Date` until old automations are retired.
 
 ## Storage contract
-- UI reads matter files only from the selected matter's `driveFolderId`.
+- `src/storage.mjs` now exposes a provider interface with `listMatterFiles`, `folderStatus`, `ensureMatterFolder`, `requestDownload`, and `requestUpload` primitives.
+- Providers are interchangeable: `local` reads/writes the LexyOS JSON document store, `mock` is safe no-op OSS mode, and `google_drive` scopes live operations through a GOG Drive boundary.
+- UI/API file reads are scoped only to the selected matter's `driveFolderId` / `drive_folder_id`; the adapter never falls back to the Drive root for matter file list/download operations.
 - If a matter has no folder, the storage adapter returns `needsFolder: true` and can call `ensureMatterFolder` only if a creation adapter is configured.
-- Current config points at Peacock's canonical `2026 Permanent Matter Files` Drive root from the existing folder automation record.
+- OSS/local mode does not require Peacock-specific Drive IDs. `config/integrations.json` and `.env.example` reference `LEXYOS_DRIVE_ROOT_FOLDER_ID` as a deployment env var instead of committing live IDs.
 
 ## Legal safety
 - Eva document edits are proposals using tracked-change mode by default.
@@ -92,9 +94,17 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - API workflow receipts with authenticated local session: document request `docgen_Q-2026-001_final-qdro-1779727158` created gate `gate_docgen_Q-2026-001_final-qdro-1779727158`; artifact `artifact_docgen_Q-2026-001_final-qdro-1779727158` rendered; explicit-gate task `final-gate-task-1779727158` moved `ready` -> `approved`; filing `final-filing-1779727158` submitted with receipt `manual-final-filing-1779727158`; service `final-service-1779727199` sent with tracking `TRACK-FINAL-001`; corpus search returned `supported=True` with one citation; audit trail reached 13 events.
 
 ## Remaining product gaps
-- live Google Drive/no-code DB adapters are still behind local adapter seams; no external services were called per task constraint. Production publication remains gated behind explicit review/publish tasks.
+- Live Google Drive/no-code DB credentials are deployment-time env values, not OSS defaults. The storage provider boundary is implemented and tested; a hosted deployment still needs `LEXYOS_DRIVE_ROOT_FOLDER_ID` injected on Hetzner and a GOG-compatible Drive command surface available at runtime.
+
+## Google Drive universal storage adapter — 2026-05-25
+- Product decision: Google Drive is now treated as a universal storage adapter, not a local-build blocker. `createMatterStorageAdapter` can select `mock`, `local`, or `google_drive` providers; `createLexyProductServer` accepts an injectable `storageAdapter` and defaults to local JSON-backed files for runnable OSS/product dev.
+- Scope guard: selected-matter-only file scoping is enforced at the adapter and HTTP API boundary. Drive list/download/upload calls use the matter folder ID and do not fall back to the root folder; missing folders return explicit blocked/no-op responses.
+- Live adapter boundary: Google Drive mode uses a GOG command wrapper (`--account team drive ...`) behind request primitives. No Peacock-specific folder IDs are required or committed for OSS mode; `.env.example` and `config/integrations.json` document env-driven live configuration.
+- RED receipts: `npm test -- tests/storage.test.mjs` failed before implementation because `createLocalMatterStorage`/`createMatterStorageAdapter` did not exist; `node --test tests/product-backend.test.mjs` failed before server wiring because `/api/matters/:id/files` bypassed the injected adapter.
+- GREEN receipts: targeted run `node --test tests/product-backend.test.mjs tests/storage.test.mjs` passes 9/9; full suite `npm test` passes 64/64.
+- Runtime receipt: local server on `PORT=5207` returned `health_status=ok`, `matter_count=2`, listed Q1 files `file-jane-q1` and `file-jane-judgment`, accepted local upload `runtime-storage-proof` with `source=local` and `matterId=Q-2026-001`, then listed the uploaded file only under the selected Q1 endpoint.
 
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.
-- Confirm whether the first live adapter should call `gog --account team drive ...` directly or an n8n webhook facade.
+- Confirm whether production should call `gog --account team drive ...` directly on Hetzner or an n8n webhook facade.
