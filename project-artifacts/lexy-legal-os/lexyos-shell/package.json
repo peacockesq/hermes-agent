@@ -6,6 +6,7 @@
   "description": "Clean LexyOS matter-centered legal document cockpit prototype. No Mike/PIP code copied.",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "start": "python3 -m http.server 5174 --directory ."
+    "start": "node src/server.mjs",
+    "reset:data": "node scripts/reset-data.mjs"
   }
 }

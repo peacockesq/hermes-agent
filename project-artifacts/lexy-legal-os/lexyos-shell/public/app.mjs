@@ -93,9 +93,9 @@ const opsPanel = document.querySelector('#ops-panel');
 const researchPanel = document.querySelector('#research-panel');
 
 async function boot() {
-  matters = await repo.listMatters();
+  matters = await loadMattersFromApi();
   visibleMatters = matters;
-  selectMatter(matters[0]);
+  await selectMatter(matters[0]);
   renderMatters();
 }
 
@@ -117,7 +117,7 @@ async function selectMatter(matter) {
   renderBaseline();
   await renderFiles();
   renderEva();
-  renderLexyOps();
+  await renderLexyOps();
 }
 
 function renderBaseline() {
@@ -131,7 +131,7 @@ function renderBaseline() {
 }
 
 async function renderFiles() {
-  const files = await storage.listMatterFiles(selectedMatter);
+  const files = await loadFilesFromApi(selectedMatter);
   fileList.innerHTML = '';
   if (!files.length) {
     fileList.innerHTML = '<div class="empty">No files found for this matter folder yet.</div>';
@@ -164,7 +164,7 @@ function renderEva() {
   evaContext.textContent = buildEvaPromptContext({ matter: selectedMatter, document: selectedDocument, selectedText });
 }
 
-function renderLexyOps() {
+async function renderLexyOps() {
   if (!selectedMatter) return;
   const packTasks = createMissingRequirementTasks(QDRO_FAMILY_PACK, {
     ...selectedMatter,
@@ -186,9 +186,8 @@ function renderLexyOps() {
   });
   const filingValidation = validateFilingPacket(packet, QDRO_FAMILY_PACK.filingRequirements);
   const filingGate = requestFilingApproval(packet);
-  const corpusAnswer = answerWithCitations({
+  const corpusAnswer = await loadCorpusAnswerFromApi({
     question: 'What does a QDRO draft require before filing?',
-    sources: corpusSources,
     scope: { practiceArea: 'family_qdro', jurisdiction: selectedMatter.baseline.jurisdiction ?? 'CT' },
   });
   const serviceRequirement = defineServiceRequirement({ id: 'plan-admin-mail', method: 'mail', requiredDocuments: ['notice'] });
@@ -200,9 +199,44 @@ function renderLexyOps() {
     recipient: selectedMatter.baseline.plan_admin_tpa ?? 'Plan Administrator',
   });
 
-  sessionPanel.textContent = JSON.stringify({ tenantId: demoSession.tenantId, provider: demoSession.provider, roles: demoSession.roles }, null, 2);
-  opsPanel.textContent = JSON.stringify({ missingPackTasks: packTasks.map((task) => task.title), documentGeneration: docRequest.status, filingValidation, filingGate: filingGate.status }, null, 2);
+  sessionPanel.textContent = JSON.stringify({ backend: 'http://localhost:5174/api', tenantId: demoSession.tenantId, provider: demoSession.provider, roles: demoSession.roles }, null, 2);
+  opsPanel.textContent = JSON.stringify({ source: 'api-backed matter/file/corpus with local workflow contracts', missingPackTasks: packTasks.map((task) => task.title), documentGeneration: docRequest.status, filingValidation, filingGate: filingGate.status }, null, 2);
   researchPanel.textContent = JSON.stringify({ corpus: corpusAnswer, servicePacket: { status: servicePacket.status, missingDocuments: servicePacket.missingDocuments } }, null, 2);
+}
+
+async function loadMattersFromApi() {
+  try {
+    const apiMatters = await apiJson('/api/matters');
+    return apiMatters.length ? apiMatters : await repo.listMatters();
+  } catch {
+    return repo.listMatters();
+  }
+}
+
+async function loadFilesFromApi(matter) {
+  try {
+    return await apiJson(`/api/matters/${encodeURIComponent(matter.id)}/files`);
+  } catch {
+    return storage.listMatterFiles(matter);
+  }
+}
+
+async function loadCorpusAnswerFromApi({ question, scope }) {
+  try {
+    return await apiJson('/api/corpus/search', { method: 'POST', body: { query: question, scope } });
+  } catch {
+    return answerWithCitations({ question, sources: corpusSources, scope });
+  }
+}
+
+async function apiJson(path, options = {}) {
+  const response = await fetch(path, {
+    ...options,
+    headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
+  if (!response.ok) throw new Error(`LexyOS API failed: ${response.status}`);
+  return response.json();
 }
 
 matterSearch.addEventListener('input', (event) => {

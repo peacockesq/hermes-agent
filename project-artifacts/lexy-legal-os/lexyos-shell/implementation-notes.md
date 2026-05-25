@@ -61,6 +61,13 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Board `lexyos` contains implementation cards for every PRD feature plus dependency-gated integration, spec, security, Otto, and GitHub PR cards.
 - The GitHub publication card is intentionally gated behind Otto final review; do not publish while the feature contracts or review cards are incomplete.
 
+## Runtime product backend decisions and receipts
+- `npm start` now runs `node src/server.mjs`, a local Node HTTP server that serves the cockpit UI and same-origin JSON APIs. It binds to `127.0.0.1:5174` by default and does not call external services.
+- Persistence is JSON-file backed through the existing store facade. Default mutable state is `data/lexyos.json`; `npm run reset:data` rebuilds it from `data/seed.json`; tests override `LEXYOS_DATA_PATH`/constructor data paths with temp files.
+- API workflows now cover matters, matter files, document generation requests/artifacts, gates approve/reject, tasks, hash-chained audit events, filing packet/status/submission, corpus search with explicit unsupported refusal, and service packet/send/proof lifecycle.
+- The browser cockpit now hydrates matters, matter files, and corpus answers from the local API and falls back to module demo data only if the local backend is unreachable.
+- Receipt: `npm test` passes 52/52 after adding `tests/product-backend.test.mjs`, preserving the existing module suite while proving endpoint behavior and persistence.
+
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.
