@@ -83,6 +83,13 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - Playwright UI smoke receipt: `/opt/homebrew/opt/python@3.14/bin/python3.14 scripts/ui-smoke-proof.py` drove the browser through matter load, document artifact generation, gate approval, filing prepare/approve/submit, service prepare/approve/send/proof, corpus search, and Eva tracked-change proposal with an empty `#error-panel`. Screenshot captured at `proof/lexyos-ui-smoke.png`.
 - Remaining product gaps: live Google Drive/no-code DB adapters are still behind local adapter seams; no external services were called per task constraint. Production publication remains gated behind explicit review/publish tasks.
 
+## HTTP auth boundary hardening — 2026-05-25
+- Product decision: local product API endpoints no longer use a hardcoded owner/global system session. `createLexyProductApp` and `createLexyProductServer` accept an injectable session resolver; the default resolver reads `Authorization: Bearer <token>` or `x-lexyos-session-id` and resolves the token against the JSON store-backed `sessions` collection plus `users` membership data.
+- HTTP API behavior: protected endpoints return 401 for missing/invalid sessions; list endpoints filter matters/tasks/gates/audit/filing/document-request rows to the resolved session's accessible matters; action endpoints re-check role permission and same-matter access before writes, gate approvals, filing submission, service sends, and proof ingestion.
+- Local dev receipt: `data/seed.json` includes `local-dev-owner`, and the browser cockpit sends `x-lexyos-session-id` from `localStorage.lexyos-session-id` with a `local-dev-owner` default for local-only operation.
+- RED receipt: `npm test -- tests/security-hardening.test.mjs tests/security-boundaries.test.mjs` failed before implementation on missing/invalid sessions returning 200, agent gate approval returning 200, and cross-tenant HTTP lists exposing both tenants.
+- GREEN receipt: after the fix, targeted security/product run passed 59/59 with HTTP auth/session-boundary tests included.
+
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
 - Confirm whether folder IDs should be written back to the DB by LexyOS or remain owned by the existing automation.

@@ -5,6 +5,7 @@ import { createHash, randomUUID } from 'node:crypto';
 export const LEXY_COLLECTIONS = Object.freeze([
   'tenants',
   'users',
+  'sessions',
   'matters',
   'parties',
   'facts',

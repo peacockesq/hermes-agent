@@ -391,9 +391,10 @@ function searchLocalMatters(matters, query) {
 }
 
 async function apiJson(path, options = {}) {
+  const sessionId = localStorage.getItem('lexyos-session-id') || 'local-dev-owner';
   const response = await fetch(path, {
     ...options,
-    headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
+    headers: { 'content-type': 'application/json', 'x-lexyos-session-id': sessionId, ...(options.headers ?? {}) },
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
   if (!response.ok) throw new Error(`LexyOS API failed: ${response.status} ${await response.text()}`);

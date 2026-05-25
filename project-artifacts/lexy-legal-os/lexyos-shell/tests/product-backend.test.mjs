@@ -11,6 +11,8 @@ async function withServer(t) {
   t.after(async () => rm(dir, { recursive: true, force: true }));
   const dataPath = join(dir, 'lexyos.json');
   const seed = {
+    users: [{ id: 'local-owner', email: 'local-owner@lexyos.test', memberships: [{ tenantId: 'peacock', roles: ['owner'], globalMatterAccess: true }] }],
+    sessions: [{ id: 'local-dev-owner', userId: 'local-owner', tenantId: 'peacock', provider: 'test' }],
     matters: [{ id: 'Q-1', matter_id: 'Q-1', tenantId: 'peacock', client_display_name: 'Jane Doe', matter_type: 'QDRO', stage: 'drafting', drive_folder_id: 'drive-q1', baseline_data: { plan_name: 'Fidelity 401(k)', case_number: 'FA-2026-1', jurisdiction: 'CT' } }],
     documents: [{ id: 'file-1', matterId: 'Q-1', name: 'Judgment.pdf', type: 'judgment', mimeType: 'application/pdf' }],
     corpusSources: [{ id: 'corp-1', title: 'QDRO Memo', jurisdiction: 'CT', practiceArea: 'family_qdro', sourceType: 'firm_memo', text: 'QDRO drafts require plan identity and judgment review before filing.' }],
@@ -23,7 +25,7 @@ async function withServer(t) {
   async function api(path, options = {}) {
     const response = await fetch(`${baseUrl}${path}`, {
       ...options,
-      headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
+      headers: { 'content-type': 'application/json', 'x-lexyos-session-id': 'local-dev-owner', ...(options.headers ?? {}) },
       body: options.body && typeof options.body !== 'string' ? JSON.stringify(options.body) : options.body,
     });
     const body = await response.json();
