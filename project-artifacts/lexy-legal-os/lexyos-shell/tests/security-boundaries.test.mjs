@@ -7,7 +7,7 @@ import { createCorpusSource, queryCorpus } from '../src/corpus.mjs';
 import { approveGate, createHumanGate } from '../src/gates.mjs';
 import { createMatterRepository, createStaticMatterSource } from '../src/repository.mjs';
 import { completeTask, createTask } from '../src/tasks.mjs';
-import { createLexyProductApp } from '../src/server.mjs';
+import { createLexyProductServer } from '../src/server.mjs';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -15,6 +15,25 @@ import { tmpdir } from 'node:os';
 function sessionFor(tenantId, roles = ['attorney'], matterScope = 'tenant') {
   const user = createUser({ id: `${tenantId}-${roles[0]}`, email: `${roles[0]}@${tenantId}.test`, memberships: [{ tenantId, roles, matterScope }] });
   return createSession({ user, tenantId });
+}
+
+async function startProductHttp(t, options) {
+  const { server } = createLexyProductServer(options);
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  t.after(async () => new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve()))));
+  const { port } = server.address();
+  const baseUrl = `http://127.0.0.1:${port}`;
+  return async function api(path, { method = 'GET', headers = {}, body } = {}) {
+    const response = await fetch(`${baseUrl}${path}`, {
+      method,
+      headers: { 'content-type': 'application/json', ...headers },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    return { status: response.status, body: await response.json() };
+  };
 }
 
 test('API filters matters, tasks, gates, and audit events by tenant/matter access', async () => {
@@ -70,7 +89,7 @@ test('private corpus sources require an explicit matching matter scope', () => {
 test('HTTP endpoints filter tenant data and reject cross-tenant writes by resolved session', async (t) => {
   const dir = await mkdtemp(join(tmpdir(), 'lexyos-http-boundary-'));
   t.after(async () => rm(dir, { recursive: true, force: true }));
-  const app = createLexyProductApp({
+  const api = await startProductHttp(t, {
     dataPath: join(dir, 'lexyos.json'),
     seed: {
       users: [
@@ -90,13 +109,13 @@ test('HTTP endpoints filter tenant data and reject cross-tenant writes by resolv
     },
   });
 
-  const firmAMatters = await app.handleApi('GET', '/api/matters', {}, { headers: { authorization: 'Bearer token-a' } });
+  const firmAMatters = await api('/api/matters', { headers: { authorization: 'Bearer token-a' } });
   assert.deepEqual(firmAMatters.body.map((matter) => matter.id), ['A1']);
-  const firmATasks = await app.handleApi('GET', '/api/tasks', {}, { headers: { authorization: 'Bearer token-a' } });
+  const firmATasks = await api('/api/tasks', { headers: { authorization: 'Bearer token-a' } });
   assert.deepEqual(firmATasks.body.map((task) => task.id), ['task-a']);
-  const firmAGates = await app.handleApi('GET', '/api/gates', {}, { headers: { authorization: 'Bearer token-a' } });
+  const firmAGates = await api('/api/gates', { headers: { authorization: 'Bearer token-a' } });
   assert.deepEqual(firmAGates.body.map((gate) => gate.id), ['gate-a']);
 
-  const crossTenantWrite = await app.handleApi('POST', '/api/matters/B1/files', { id: 'bad-file', name: 'Do not write.pdf' }, { headers: { authorization: 'Bearer token-a' } });
+  const crossTenantWrite = await api('/api/matters/B1/files', { method: 'POST', headers: { authorization: 'Bearer token-a' }, body: { id: 'bad-file', name: 'Do not write.pdf' } });
   assert.equal(crossTenantWrite.status, 403);
 });

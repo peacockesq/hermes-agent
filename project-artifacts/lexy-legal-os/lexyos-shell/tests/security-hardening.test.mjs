@@ -8,11 +8,30 @@ import { validateOidcClaims } from '../src/oidc.mjs';
 import { approveGate, createHumanGate } from '../src/gates.mjs';
 import { applyAdeuTrackedChange } from '../src/documents.mjs';
 import { markServiceSent } from '../src/service.mjs';
-import { createLexyProductApp } from '../src/server.mjs';
+import { createLexyProductServer } from '../src/server.mjs';
 
 function sessionFor(tenantId, roles = ['attorney'], extra = {}) {
   const user = createUser({ id: `${tenantId}-${roles.join('-')}`, email: `u@${tenantId}.test`, memberships: [{ tenantId, roles, ...extra }] });
   return createSession({ user, tenantId });
+}
+
+async function startProductHttp(t, options) {
+  const { server } = createLexyProductServer(options);
+  await new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  t.after(async () => new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve()))));
+  const { port } = server.address();
+  const baseUrl = `http://127.0.0.1:${port}`;
+  return async function api(path, { method = 'GET', headers = {}, body } = {}) {
+    const response = await fetch(`${baseUrl}${path}`, {
+      method,
+      headers: { 'content-type': 'application/json', ...headers },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    return { status: response.status, body: await response.json() };
+  };
 }
 
 test('owner/admin role remains tenant-bound unless explicit global access is granted', () => {
@@ -54,19 +73,19 @@ test('OIDC provider tenant id must match tenant being authenticated', () => {
 test('HTTP endpoints require a resolved session before protected actions', async (t) => {
   const dir = await mkdtemp(join(tmpdir(), 'lexyos-http-auth-'));
   t.after(async () => rm(dir, { recursive: true, force: true }));
-  const app = createLexyProductApp({
+  const api = await startProductHttp(t, {
     dataPath: join(dir, 'lexyos.json'),
     seed: { matters: [{ id: 'A1', tenantId: 'firm-a', client_display_name: 'A Client' }] },
   });
 
-  assert.deepEqual(await app.handleApi('GET', '/api/matters', {}, { headers: {} }), { status: 401, body: { error: 'unauthorized' } });
-  assert.deepEqual(await app.handleApi('GET', '/api/matters', {}, { headers: { authorization: 'Bearer bad-token' } }), { status: 401, body: { error: 'unauthorized' } });
+  assert.deepEqual(await api('/api/matters'), { status: 401, body: { error: 'unauthorized' } });
+  assert.deepEqual(await api('/api/matters', { headers: { authorization: 'Bearer bad-token' } }), { status: 401, body: { error: 'unauthorized' } });
 });
 
 test('HTTP gate decisions enforce the resolved session role', async (t) => {
   const dir = await mkdtemp(join(tmpdir(), 'lexyos-http-authz-'));
   t.after(async () => rm(dir, { recursive: true, force: true }));
-  const app = createLexyProductApp({
+  const api = await startProductHttp(t, {
     dataPath: join(dir, 'lexyos.json'),
     seed: {
       users: [
@@ -82,9 +101,9 @@ test('HTTP gate decisions enforce the resolved session role', async (t) => {
     },
   });
 
-  const denied = await app.handleApi('POST', '/api/gates/gate-a1/approve', {}, { headers: { authorization: 'Bearer agent-token' } });
+  const denied = await api('/api/gates/gate-a1/approve', { method: 'POST', headers: { authorization: 'Bearer agent-token' }, body: {} });
   assert.equal(denied.status, 403);
-  const approved = await app.handleApi('POST', '/api/gates/gate-a1/approve', {}, { headers: { 'x-lexyos-session-id': 'attorney-token' } });
+  const approved = await api('/api/gates/gate-a1/approve', { method: 'POST', headers: { 'x-lexyos-session-id': 'attorney-token' }, body: {} });
   assert.equal(approved.status, 200);
   assert.equal(approved.body.decision.decidedBy, 'attorney-a');
 });
