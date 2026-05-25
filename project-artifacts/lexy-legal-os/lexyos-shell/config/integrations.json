@@ -1,0 +1,26 @@
+{
+  "rootFolderId": "1H-QI7MRbbXgoPjSvdNoXg4mjB5PZ0JSM",
+  "rootFolderName": "2026 Permanent Matter Files",
+  "sources": {
+    "nocodb": {
+      "enabled": true,
+      "env": {
+        "baseUrl": "LEXY_NOCODB_BASE_URL",
+        "tableId": "LEXY_NOCODB_MATTERS_TABLE_ID",
+        "token": "LEXY_NOCODB_TOKEN"
+      }
+    },
+    "intakeWebhook": {
+      "enabled": true,
+      "env": {
+        "endpoint": "LEXY_INTAKE_MATTERS_ENDPOINT"
+      }
+    },
+    "googleDrive": {
+      "enabled": true,
+      "accountAlias": "team",
+      "folderPerMatter": true,
+      "canonicalRoot": "2026 Permanent Matter Files/Clients"
+    }
+  }
+}

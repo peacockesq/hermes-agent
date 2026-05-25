@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LexyOS Matter Cockpit</title>
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="matters-pane">
+        <div class="brand">LexyOS</div>
+        <label class="search-label" for="matter-search">Matter</label>
+        <input id="matter-search" placeholder="Search client, plan, stage…" autocomplete="off" />
+        <div id="matter-list" class="matter-list"></div>
+      </aside>
+
+      <aside class="files-pane">
+        <h2>Cloud Files</h2>
+        <div id="folder-status" class="folder-status"></div>
+        <div id="file-list" class="file-list"></div>
+        <h2>Baseline Data</h2>
+        <div id="baseline-panel" class="baseline-panel"></div>
+      </aside>
+
+      <section class="workspace-pane">
+        <div class="workspace-header">
+          <h1>Document Workspace</h1>
+          <div class="pill">Drive folder per matter · tracked-change edits</div>
+        </div>
+        <div id="document-frame" class="document-frame"></div>
+      </section>
+
+      <aside class="eva-pane">
+        <h2>Unified Login / B2B</h2>
+        <pre id="session-panel" class="proposal"></pre>
+        <h2>Tasks / Gates / Filing</h2>
+        <pre id="ops-panel"></pre>
+        <h2>Corpus / Service</h2>
+        <pre id="research-panel"></pre>
+        <h2>Eva / Research</h2>
+        <textarea id="eva-instruction" placeholder="Ask Eva to review, draft, or propose a tracked edit…">Add survivor benefit language if missing.</textarea>
+        <button id="eva-propose">Create tracked-change proposal</button>
+        <h3>Context sent to Eva</h3>
+        <pre id="eva-context"></pre>
+        <h3>Proposal</h3>
+        <pre id="eva-proposal" class="proposal"></pre>
+      </aside>
+    </main>
+    <script type="module" src="/public/app.mjs"></script>
+  </body>
+</html>
