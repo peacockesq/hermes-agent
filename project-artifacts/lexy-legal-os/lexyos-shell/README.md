@@ -1,6 +1,14 @@
-# LexyOS Shell
+# LexyOS
 
-Clean-room matter-centered legal document cockpit prototype.
+Clean-room matter-centered legal document cockpit packaged as a standalone GitHub-ready product.
+
+Repository target: `peacockesq/lexyos`.
+
+LexyOS can run in two modes:
+
+- **OSS/local mode** — Node + JSON persistence, local matter files, no external services required.
+- **Hosted product mode** — the same HTTP/UI surface can be deployed with Docker Compose and switched to deployment-time adapters such as Google Drive/GOG without committing Peacock-specific IDs or secrets.
+
 
 No Mike/PIP code is copied. This is a separate shell designed around Peacock's actual matter workflow:
 
@@ -10,12 +18,13 @@ No Mike/PIP code is copied. This is a separate shell designed around Peacock's a
 - document workspace centered on the selected matter;
 - Eva/research rail produces tracked-change proposals, not silent edits.
 
-## Run
+## Run locally
 
 ```bash
-npm install # no runtime dependencies today; keeps npm scripts available
+npm ci
 npm run reset:data
 npm test
+npm run smoke:http
 npm start
 # open http://localhost:5174/
 ```
@@ -26,6 +35,26 @@ npm start
 LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm run reset:data
 LEXYOS_DATA_PATH=/tmp/lexyos-dev.json npm start
 ```
+
+## Docker / hosted product packaging
+
+LexyOS ships with a production container and Compose file. The image binds to `0.0.0.0:5174` inside the container, persists mutable JSON state in `/app/data`, and exposes `/api/health` for container and proxy checks.
+
+```bash
+cp .env.example .env
+# optional: set LEXYOS_PUBLIC_PORT=5174 or LEXYOS_STORAGE_PROVIDER=mock/google_drive
+docker compose up -d --build
+curl -s http://127.0.0.1:5174/api/health
+```
+
+The Compose file defaults to the local storage adapter. Hosted deployments can set `LEXYOS_STORAGE_PROVIDER=google_drive`, `LEXYOS_GOG_ACCOUNT=team`, and `LEXYOS_DRIVE_ROOT_FOLDER_ID` through server or GitHub environment secrets/vars. Do not commit live IDs, tokens, or client files.
+
+## GitHub automation
+
+Workflows are included under `.github/workflows/`:
+
+- `ci.yml` runs Node tests, the HTTP smoke test, Docker build/container smoke, and a Playwright cockpit smoke when browser dependencies install successfully.
+- `deploy-hetzner.yml` is a manual `workflow_dispatch` deploy to lexy-hetzner-01 (`37.27.49.209`) using the existing VPS + Docker Compose path. It requires `HETZNER_SSH_KEY` and optionally `HETZNER_SSH_USER` as GitHub environment/repository configuration; it does not store secrets in the repo.
 
 ## Storage providers
 
@@ -127,7 +156,7 @@ This keeps the shell compatible with NocoDB/Airtable/Twenty/intake webhook expor
 
 ## Next production wiring
 
-1. Replace demo source with the real no-code DB adapter env values.
-2. Replace fake Drive file list with `gog --account team drive search` or a thin n8n facade.
+1. Inject the selected no-code DB adapter env values (`LEXY_NOCODB_*` or a future adapter) in hosted environments.
+2. For live Drive product mode, set `LEXYOS_STORAGE_PROVIDER=google_drive`, `LEXYOS_GOG_ACCOUNT=team`, and `LEXYOS_DRIVE_ROOT_FOLDER_ID` through server/GitHub secrets or environment vars.
 3. Decide whether LexyOS writes `drive_folder_id` back to the DB or only reads folders created by the existing automation.
-4. Add document-generation endpoints and Adeu-backed tracked-change application.
+4. Add Adeu-backed tracked-change application behind the existing attorney-review gate boundary.

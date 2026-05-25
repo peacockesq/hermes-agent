@@ -1,9 +1,11 @@
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
 
-BASE_URL = 'http://127.0.0.1:5199'
+import os
+
+BASE_URL = os.environ.get('LEXYOS_BASE_URL', 'http://127.0.0.1:5199')
 ROOT = Path(__file__).resolve().parents[1]
-PROOF_DIR = ROOT / 'proof'
+PROOF_DIR = Path(os.environ.get('LEXYOS_PROOF_DIR', ROOT / 'proof'))
 PROOF_DIR.mkdir(exist_ok=True)
 
 with sync_playwright() as p:

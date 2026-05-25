@@ -61,7 +61,7 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 
 ## Kanban execution state
 - Board `lexyos` contains implementation cards for every PRD feature plus dependency-gated integration, spec, security, Otto, and GitHub PR cards.
-- The GitHub publication card is intentionally gated behind Otto final review; do not publish while the feature contracts or review cards are incomplete.
+- Packaging card `t_e32d1c81` supersedes the earlier “do not publish” note after Willie explicitly authorized standalone GitHub staging/live deployment. Publication remains clean-room and excludes Mike/PIP/Lawvable code and live Peacock Drive IDs/secrets.
 
 ## Runtime product backend decisions and receipts
 - `npm start` now runs `node src/server.mjs`, a local Node HTTP server that serves the cockpit UI and same-origin JSON APIs. It binds to `127.0.0.1:5174` by default and does not call external services.
@@ -103,6 +103,13 @@ Unknown scalar fields are preserved into `baseline` so NocoDB/Airtable/Lawmatics
 - RED receipts: `npm test -- tests/storage.test.mjs` failed before implementation because `createLocalMatterStorage`/`createMatterStorageAdapter` did not exist; `node --test tests/product-backend.test.mjs` failed before server wiring because `/api/matters/:id/files` bypassed the injected adapter.
 - GREEN receipts: targeted run `node --test tests/product-backend.test.mjs tests/storage.test.mjs` passes 9/9; full suite `npm test` passes 64/64.
 - Runtime receipt: local server on `PORT=5207` returned `health_status=ok`, `matter_count=2`, listed Q1 files `file-jane-q1` and `file-jane-judgment`, accepted local upload `runtime-storage-proof` with `source=local` and `matterId=Q-2026-001`, then listed the uploaded file only under the selected Q1 endpoint.
+
+## Standalone GitHub packaging and CI — 2026-05-25
+- Product decision: LexyOS is now packageable as a standalone repository/product (`peacockesq/lexyos`) instead of only living as a local artifact under Hermes project artifacts. `package.json` is publishable metadata (`private:false`, MIT license, Node >=22), while `.gitignore`/`.dockerignore` prevent `.env`, mutable state, proof screenshots, and local dependencies from shipping.
+- Runtime packaging: added `Dockerfile` and `compose.yaml` for the existing VPS/Docker Compose path. The container binds `HOST=0.0.0.0`, exposes `PORT=5174`, persists `/app/data`, resets seed data at build time, and includes a healthcheck against `/api/health`.
+- CI/release automation: added `.github/workflows/ci.yml` with Node tests, HTTP smoke, Docker build/container smoke, and Playwright cockpit smoke artifact upload. Added `.github/workflows/deploy-hetzner.yml` as a manual deployment workflow for lexy-hetzner-01 (`37.27.49.209`) requiring GitHub SSH secrets instead of committed credentials.
+- Receipts added to docs: README now documents OSS/local vs hosted product mode, Docker Compose, storage adapter env vars, GitHub Actions, and Hetzner deployment prerequisites. `scripts/http-smoke.mjs` verifies health, auth boundary, seeded matters, and selected-matter file listing against a temp JSON data path.
+- Safety: no client contacts, no law-firm legal file mutation, no live Drive folder IDs/tokens committed.
 
 ## Open integration decisions
 - Confirm exact no-code DB: NocoDB vs Airtable vs Twenty/Apiary table.
