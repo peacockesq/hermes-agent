@@ -65,6 +65,8 @@ _HERMES_CORE_TOOLS = [
     # zero schema footprint. Gated via check_fn in tools/kanban_tools.py.
     "kanban_show", "kanban_complete", "kanban_block", "kanban_heartbeat",
     "kanban_comment", "kanban_create", "kanban_link",
+    # Legal matter context bundles
+    "qdro_get_backstory",
 ]
 
 
@@ -228,6 +230,12 @@ TOOLSETS = {
             "kanban_heartbeat", "kanban_comment",
             "kanban_create", "kanban_link",
         ],
+        "includes": [],
+    },
+
+    "legal": {
+        "description": "Legal/QDRO matter source collection and context-bundling tools",
+        "tools": ["qdro_get_backstory"],
         "includes": [],
     },
 
