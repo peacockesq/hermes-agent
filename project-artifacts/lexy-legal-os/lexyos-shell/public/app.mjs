@@ -51,11 +51,52 @@ const evaContext = $('#eva-context');
 const evaProposal = $('#eva-proposal');
 const matterHealthScore = $('#matter-health-score');
 const activeEndpoints = $('#active-endpoints');
+const loginScreen = $('#login-screen');
+const appShell = $('#app-shell');
+const mobileMenuToggle = $('#mobile-menu-toggle');
+const mobileEvaToggle = $('#mobile-eva-toggle');
+const evaBubble = $('#eva-bubble');
 activeEndpoints.classList.add('api-receipt-list');
 
 async function boot() {
+  bindLogin();
+  bindShellControls();
   bindControls();
+  if (currentSessionId()) await enterApp();
+}
+
+function bindLogin() {
+  $('#login-google').addEventListener('click', () => startPreviewSession('google-workspace'));
+  $('#login-microsoft').addEventListener('click', () => startPreviewSession('microsoft-365'));
+}
+
+async function startPreviewSession(provider) {
+  localStorage.setItem('lexyos-session-id', 'local-dev-owner');
+  localStorage.setItem('lexyos-session-provider', provider);
+  await enterApp();
+}
+
+async function enterApp() {
+  document.body.classList.remove('login-required');
+  loginScreen.hidden = true;
+  appShell.hidden = false;
   await refreshAll();
+}
+
+function bindShellControls() {
+  mobileMenuToggle.addEventListener('click', () => toggleShellPanel('nav-open', mobileMenuToggle));
+  mobileEvaToggle.addEventListener('click', () => toggleShellPanel('agent-open', mobileEvaToggle));
+  evaBubble.addEventListener('click', () => toggleShellPanel('agent-open', mobileEvaToggle));
+}
+
+function toggleShellPanel(className, control) {
+  const active = document.body.classList.toggle(className);
+  control?.setAttribute('aria-expanded', String(active));
+}
+
+function closeMobileNav() {
+  document.body.classList.remove('nav-open');
+  mobileMenuToggle?.setAttribute('aria-expanded', 'false');
 }
 
 function bindControls() {
@@ -112,7 +153,7 @@ function renderAll() {
   renderTasks();
   renderGates();
   renderAudit();
-  renderResearch({ message: 'Ready. Actions call the local LexyOS API and refresh persisted state.' });
+  renderResearch({ message: 'Ready. Actions update the matter record and refresh the workspace.' });
   renderEvaContext();
 }
 
@@ -128,6 +169,7 @@ function renderMatters() {
       state.selectedGate = null;
       await refreshMatterScopedData();
       renderAll();
+      closeMobileNav();
     }));
     matterList.appendChild(button);
   }
@@ -136,7 +178,7 @@ function renderMatters() {
 function renderFiles() {
   fileList.innerHTML = '';
   if (!state.files.length) {
-    fileList.innerHTML = '<div class="empty">No API files found for this matter folder yet.</div>';
+    fileList.innerHTML = '<div class="empty">No files found for this matter yet.</div>';
     return;
   }
   for (const file of state.files) {
@@ -158,10 +200,10 @@ function renderBaseline() {
   baselineEditor.value = JSON.stringify(baseline, null, 2);
   baselinePanel.innerHTML = Object.entries(baseline)
     .map(([key, value]) => `<div class="baseline-row"><span>${escapeHtml(key)}</span><strong>${escapeHtml(String(value))}</strong></div>`)
-    .join('') || '<div class="empty">No baseline facts persisted for this matter.</div>';
+    .join('') || '<div class="empty">No key facts saved for this matter yet.</div>';
   folderStatus.textContent = state.selectedMatter?.driveFolderId || state.selectedMatter?.drive_folder_id
     ? `Drive folder: ${state.selectedMatter.driveFolderId ?? state.selectedMatter.drive_folder_id}`
-    : 'No Drive folder ID on this matter; file list is scoped by matterId only.';
+    : 'No Drive folder connected; files are scoped to this matter.';
 }
 
 function renderMatterMetrics() {
@@ -170,9 +212,9 @@ function renderMatterMetrics() {
   const health = Math.max(0, 100 - (pendingGates * 12) - (openTasks * 4));
   const metrics = [
     ['matter-health-score', `${health}%`, 'Matter health'],
-    ['files', String(state.files.length), 'API files'],
-    ['gates', String(pendingGates), 'Pending gates'],
-    ['active-endpoints', String(API_ENDPOINT_RECEIPTS.length), 'Live endpoints'],
+    ['files', String(state.files.length), 'Files'],
+    ['gates', String(pendingGates), 'Pending approvals'],
+    ['active-endpoints', String(API_ENDPOINT_RECEIPTS.length), 'Advanced'],
   ];
   matterHealthScore.innerHTML = metrics.map(([id, value, label]) => `<div class="metric-card" data-metric="${escapeHtml(id)}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('');
   activeEndpoints.innerHTML = API_ENDPOINT_RECEIPTS.map((endpoint) => `<span class="api-receipt">${escapeHtml(endpoint)}</span>`).join('');
@@ -186,20 +228,21 @@ function renderDocument(artifact = null) {
   }
   const file = state.selectedDocument;
   if (!file) {
-    documentFrame.innerHTML = '<div class="empty big">Select a matter file or generate a persistent artifact.</div>';
+    documentFrame.innerHTML = '<div class="empty big">Select a matter file or draft a document.</div>';
     return;
   }
   documentFrame.innerHTML = `
     <div class="doc-preview">
       <div class="doc-title">${escapeHtml(file.name ?? file.id)}</div>
-      <p>Loaded from <strong>/api/matters/${escapeHtml(state.selectedMatter.id)}/files</strong>. No local demo data is used.</p>
+      <p>Loaded from this matter’s files.</p>
       <blockquote id="selected-text">${escapeHtml(file.content ?? 'The Alternate Payee shall receive fifty percent of the marital portion.')}</blockquote>
       <pre>${escapeHtml(JSON.stringify(file, null, 2))}</pre>
     </div>`;
 }
 
 function renderSession() {
-  sessionPanel.textContent = JSON.stringify({ backend: '/api', persistence: 'data/lexyos.json', selectedMatterId: state.selectedMatter?.id ?? null }, null, 2);
+  const provider = localStorage.getItem('lexyos-session-provider') ?? 'preview';
+  sessionPanel.textContent = JSON.stringify({ provider, backend: '/api', persistence: 'data/lexyos.json', selectedMatterId: state.selectedMatter?.id ?? null }, null, 2);
 }
 
 function renderTasks() {
@@ -211,7 +254,7 @@ function renderGates() {
   gateList.innerHTML = '';
   const scoped = state.gates.filter((gate) => !state.selectedMatter || gate.matterId === state.selectedMatter.id);
   if (!scoped.length) {
-    gateList.innerHTML = '<div class="empty">No gates yet. Generate a document, filing, or service packet.</div>';
+    gateList.innerHTML = '<div class="empty">No approvals yet. Draft a document, filing, or service packet.</div>';
     return;
   }
   for (const gate of scoped) {
@@ -488,8 +531,13 @@ function searchLocalMatters(matters, query) {
   return matters.filter((matter) => [matter.id, displayName(matter), matter.stage, JSON.stringify(matter.baseline ?? matter.baseline_data ?? {})].join(' ').toLowerCase().includes(q));
 }
 
+function currentSessionId() {
+  return localStorage.getItem('lexyos-session-id');
+}
+
 async function apiJson(path, options = {}) {
-  const sessionId = localStorage.getItem('lexyos-session-id') || 'local-dev-owner';
+  const sessionId = currentSessionId();
+  if (!sessionId) throw new Error('Sign in before calling LexyOS.');
   const response = await fetch(path, {
     ...options,
     headers: { 'content-type': 'application/json', 'x-lexyos-session-id': sessionId, ...(options.headers ?? {}) },

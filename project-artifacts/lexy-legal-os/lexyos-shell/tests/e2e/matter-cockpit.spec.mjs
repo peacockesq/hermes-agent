@@ -89,6 +89,8 @@ test.describe('LexyOS matter cockpit workflow', () => {
     await page.goto('/');
 
     await expect(page).toHaveTitle(/LexyOS Matter Cockpit/);
+    await expect(page.getByRole('button', { name: 'Continue with Google Workspace' })).toBeVisible();
+    await page.getByRole('button', { name: 'Continue with Google Workspace' }).click();
     await expect(page.getByRole('heading', { name: /^(Document Workspace|Documents)$/ })).toBeVisible();
 
     await page.getByRole('button', { name: /^(Create API matter|New matter)$/ }).click();
