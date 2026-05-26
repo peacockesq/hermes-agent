@@ -17,6 +17,7 @@ from .session import (
     build_session_context_prompt,
 )
 from .delivery import DeliveryRouter, DeliveryTarget
+from .slash_access import SlashAccessPolicy, policy_from_extra, policy_for_source
 
 __all__ = [
     # Config

@@ -39,6 +39,9 @@ PYPROJECT_FILE = REPO_ROOT / "pyproject.toml"
 
 # Auto-extracted from noreply emails + manual overrides
 AUTHOR_MAP = {
+    # Peacock legal-tech workspace
+    "peacockesq@users.noreply.github.com": "peacockesq",
+    "bot@Bots-MacBook-Pro.local": "peacockesq",
     # teknium (multiple emails)
     "teknium1@gmail.com": "teknium1",
     "m@mobrienv.dev": "mikeyobrien",

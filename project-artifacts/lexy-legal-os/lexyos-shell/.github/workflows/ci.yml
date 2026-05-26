@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main, 'feat/**', 'fix/**', 'ci/**', 'docs/**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node tests and HTTP smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run smoke:http
+
+  docker:
+    name: Docker image smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: docker/setup-buildx-action@v3
+      - run: docker build -t lexyos:ci .
+      - name: Run container
+        run: |
+          docker run -d --name lexyos-ci -p 5174:5174 lexyos:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:5174/api/health; then exit 0; fi
+            sleep 1
+          done
+          docker logs lexyos-ci
+          exit 1
+      - name: Auth boundary smoke
+        run: |
+          test "$(curl -s -o /tmp/noauth.json -w '%{http_code}' http://127.0.0.1:5174/api/matters)" = "401"
+          curl -fsS -H 'x-lexyos-session-id: local-dev-owner' http://127.0.0.1:5174/api/matters | python -m json.tool
+      - if: always()
+        run: docker logs lexyos-ci || true
+
+  playwright:
+    name: Playwright matter cockpit E2E
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:local
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lexyos-playwright-proof
+          path: |
+            proof/matter-cockpit-local.png
+            proof/playwright-results.json
+            proof/playwright-report
+            proof/playwright-artifacts
+          if-no-files-found: ignore
